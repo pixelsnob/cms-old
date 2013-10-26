@@ -1,0 +1,11 @@
+
+extends layout
+
+block content
+  if products.length
+    ul.products
+      each product in products
+        li= product.description
+  else
+    div No products!
+    
