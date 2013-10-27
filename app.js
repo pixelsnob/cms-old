@@ -27,7 +27,9 @@ app.configure(function() {
   app.locals.pretty = true;
   app.use(express.urlencoded()); 
   app.use(express.json());
-  app.use(jade_browser('/js/jade.js', '**', { root: app.get('views'), minify: true }));
+  // Expose compiled templates to frontend
+  app.use(jade_browser('/js/jade.js', '**',
+    { root: app.get('views'), minify: true }));
 });
 
 app.configure('development', function() {

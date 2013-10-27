@@ -18,7 +18,7 @@ require.config({
   }
 });
 
-define([ 'backbone', 'routers/router', 'views/app', 'jade' ],
+define([ 'backbone', 'routers/router', 'views/app' ],
 function(Backbone, Router, AppView) {
   $(function() {
     new Router;
@@ -30,12 +30,6 @@ function(Backbone, Router, AppView) {
     });
   });
 });
-
-/*
-define([ 'jade' ], function(jade) {
-  console.log(jade.render('product.jade', { product: { description: 'fuck' }})); 
-});
-*/
 
 require.onError = function(err) {
   console.log('require.onError: ' + err);
