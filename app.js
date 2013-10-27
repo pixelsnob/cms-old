@@ -17,7 +17,8 @@ var
   lunr            = require('lunr'),
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
-  ProductModel    = require('./models/product.js');
+  ProductModel    = require('./models/product.js'),
+  jade_browser    = require('jade-browser');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -26,10 +27,12 @@ app.configure(function() {
   app.locals.pretty = true;
   app.use(express.urlencoded()); 
   app.use(express.json());
+  app.use(jade_browser('/js/jade.js', '**', { root: app.get('views'), minify: true }));
 });
 
 app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
+  //app.settings.force_js_optimize = true;
 });
 
 // Create lunr index

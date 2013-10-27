@@ -5,7 +5,7 @@ block content
   if products.length
     ul.products
       each product in products
-        include product
+        li= product.description
   else
     div No products!
     

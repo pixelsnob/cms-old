@@ -4,8 +4,8 @@ require.config({
   paths: {
     jquery:         '../bower_components/jquery/jquery',
     underscore:     '../bower_components/underscore/underscore',
-    backbone:       '../bower_components/backbone/backbone'
-    //localstorage:   '../bower_components/backbone.localStorage/backbone.localStorage'
+    backbone:       '../bower_components/backbone/backbone',
+    jade:           'jade'
   },
   shim: {
     jquery: { exports: '$' },
@@ -13,12 +13,12 @@ require.config({
     backbone: {
       deps: [ 'underscore', 'jquery' ],
       exports: 'Backbone'
-    }
-    //localstorage: { deps: [ 'backbone' ] }
+    },
+    jade: { exports: 'jade' }
   }
 });
 
-define([ 'backbone', 'routers/router', 'views/app' ],
+define([ 'backbone', 'routers/router', 'views/app', 'jade' ],
 function(Backbone, Router, AppView) {
   $(function() {
     new Router;
@@ -30,6 +30,12 @@ function(Backbone, Router, AppView) {
     });
   });
 });
+
+/*
+define([ 'jade' ], function(jade) {
+  console.log(jade.render('product.jade', { product: { description: 'fuck' }})); 
+});
+*/
 
 require.onError = function(err) {
   console.log('require.onError: ' + err);
