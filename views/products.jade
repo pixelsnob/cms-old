@@ -3,6 +3,8 @@ extends layout
 
 block content
   if products.length
+    p
+      a#sort(href="javascript:;") Sort
     ul.products
       each product in products
         include product

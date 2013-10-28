@@ -1,11 +1,17 @@
 
-define([ 'backbone', 'collections/products', 'views/product' ],
+define([
+  'backbone',
+  'collections/products',
+  'views/product'
+],
 function(Backbone, ProductsCollection, ProductView) {
   return Backbone.View.extend({
     el: 'ul.products',
-    collection: new ProductsCollection,
+    events: {
+    },
+    collection: ProductsCollection,
     initialize: function() {
-      this.collection.on('reset', this.render, this); 
+        
     },
     render: function() {
       var el = this.$el;
