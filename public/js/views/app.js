@@ -7,19 +7,17 @@ define([
   return Backbone.View.extend({
     el: 'body',
     events: {
-      'click nav li.product a': 'showProducts'
+      'click nav li.product a': 'showProductsByPath'
     },
     initialize: function(opts) {
       this.products = new ProductsCollection;
       this.products.fetch();
-      this.filtered = new ProductsCollection;
-      this.products_view = new ProductsView({
-        collection: this.filtered
-      });
+      this.products_view = new ProductsView;
     },
-    showProducts: function(ev) {
-      var a = this.$(ev.currentTarget);
-      this.filtered.reset(this.products.filterBy('path', a.attr('path')));
+    showProductsByPath: function(ev) {
+      var a      = this.$(ev.currentTarget),
+        products = this.products.filterBy('path', a.attr('path'));
+      this.products_view.collection.reset(products);
       Backbone.history.navigate(a.attr('href'));
       return false;
     }
