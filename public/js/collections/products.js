@@ -4,19 +4,15 @@ define([ 'backbone', 'models/product' ], function(Backbone, ProductModel) {
   return Backbone.Collection.extend({
     url: '/products/all',
     model: ProductModel,
-    initialize: function() {
-      var coll = Backbone.Collection.extend({
-        model: this.model
-      });
-      this.filtered = new coll;
-    },
+    initialize: function() {},
     filterBy: function(attr, val) {
-      var models = this.where((function() {
+      var where = (function() {
         var obj = {};
         obj[attr] = val;
         return obj;
-      })());
-      return this.filtered.reset(models);
+      })();
+      var models = this.where(where);
+      return models;
     }
   });
 });

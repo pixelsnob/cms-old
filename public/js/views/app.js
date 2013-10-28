@@ -12,13 +12,14 @@ define([
     initialize: function(opts) {
       this.products = new ProductsCollection;
       this.products.fetch();
+      this.filtered = new ProductsCollection;
       this.products_view = new ProductsView({
-        collection: this.products.filtered
+        collection: this.filtered
       });
     },
     showProducts: function(ev) {
       var a = this.$(ev.currentTarget);
-      this.products.filterBy('path', a.attr('path'));
+      this.filtered.reset(this.products.filterBy('path', a.attr('path')));
       Backbone.history.navigate(a.attr('href'));
       return false;
     }

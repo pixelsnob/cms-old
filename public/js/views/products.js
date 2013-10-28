@@ -6,7 +6,7 @@ function(Backbone, ProductsCollection, ProductView) {
     initialize: function() {
       this.collection.on('reset', this.render, this); 
     },
-    render: function(path) {
+    render: function() {
       var el = this.$el;
       el.html('');
       this.collection.forEach(function(product) {
