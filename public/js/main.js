@@ -18,10 +18,8 @@ require.config({
   }
 });
 
-define([ 'backbone', 'routers/router', 'views/app' ],
-function(Backbone, Router, AppView) {
+define([ 'backbone', 'views/app' ], function(Backbone, AppView) {
   $(function() {
-    new Router;
     new AppView;
     Backbone.history.start({
       pushState: true,

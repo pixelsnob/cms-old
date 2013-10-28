@@ -14,7 +14,7 @@ html
         ul
           li: a(href="/") Home
           each val in nav
-            li.product: a(href="/products/#{val.path}", class="#{val.path}")
+            li.product: a(href="/products/#{val.path}", path="#{val.path}")
               = val.category
       form(name="search_form", action="/search", method="post")
         input(type="text", name="search", value="#{search}", placeholder="Product Search...")

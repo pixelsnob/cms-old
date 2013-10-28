@@ -1,4 +1,5 @@
 
+/*
 define([ 'backbone', 'views/products' ], function(Backbone, ProductsView) {
   return Backbone.Router.extend({ 
     routes: {
@@ -12,4 +13,5 @@ define([ 'backbone', 'views/products' ], function(Backbone, ProductsView) {
     }
   });
 });
+*/
 
