@@ -12,7 +12,7 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
     },
     initialize: function() {
       this.setElement(this.el);
-      this.collection.fetch();
+      this.collection.fetch({ reset: true });
       this.listenTo(this.collection.filtered, 'reset sort',
         _.bind(this.renderList, this, this.collection.filtered));
     },
@@ -26,7 +26,7 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
       this.collection.filterProductsByPath(path);
     },
     showProductsByPhrase: function(phrase) {
-      //console.log(this.index.search(phrase));
+      this.collection.filterProductsByPhrase(phrase);
     },
     renderList: function(collection) {
       collection = (typeof collection == 'undefined' ?

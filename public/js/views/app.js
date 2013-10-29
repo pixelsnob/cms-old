@@ -6,8 +6,8 @@ define([
   return Backbone.View.extend({
     el: 'body',
     events: {
-      'click nav li.product a': 'showProductsByPath',
-      'submit form': 'showProductsByPhrase'
+      'click nav li.product a':  'showProductsByPath',
+      'submit form':             'showProductsByPhrase'
     },
     initialize: function(opts) {
       this.products_view = new ProductsView({
@@ -15,7 +15,7 @@ define([
       });
     },
     showProductsByPath: function(ev) {
-      var a      = this.$(ev.currentTarget);
+      var a = this.$(ev.currentTarget);
       this.products_view.showProductsByPath(a.attr('path'));
       Backbone.history.navigate(a.attr('href'));
       return false;

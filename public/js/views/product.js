@@ -1,12 +1,14 @@
 
 define([ 'backbone', 'models/product', 'jade' ], function(Backbone, ProductModel, jade) {
   return Backbone.View.extend({
-    tagName: 'li',
     events: {
-      
+      //'click span': 'test'      
     },
+    //test: function() {
+    //},
     render: function() {
-      this.$el.html(jade.render('product', { product: this.model.toJSON() }));
+      var tpl = jade.render('product', { product: this.model.toJSON() });
+      this.setElement(tpl);
       return this.el;
     }
   });
