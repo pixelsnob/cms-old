@@ -3,11 +3,12 @@ extends layout
 
 block content
   if products.length
-    p
-      a#sort(href="javascript:;") Sort
-    ul.products
-      each product in products
-        include product
+    div#products
+      p
+        a#sort(href="javascript:;") Sort
+      ul.products
+        each product in products
+          include product
   else
     div No products!
     

@@ -4,19 +4,39 @@ define([
   'collections/products',
   'views/product'
 ],
-function(Backbone, ProductsCollection, ProductView) {
+function(Backbone, ProductsCollection, ProductView, lunr) {
   return Backbone.View.extend({
-    el: 'ul.products',
+    collection: new ProductsCollection,
     events: {
+      'click #sort': 'toggleSort'
     },
-    collection: ProductsCollection,
     initialize: function() {
-        
+      this.setElement(this.el);
+      this.collection.fetch();
+      this.listenTo(this.collection.filtered, 'reset sort',
+        this.renderFilteredList);
     },
-    render: function() {
-      var el = this.$el;
-      el.html('');
-      this.collection.forEach(function(product) {
+    toggleSort: function() {
+      this.collection.filtered.sort_dir =
+        (this.collection.filtered.sort_dir == -1 ? 1 : -1);
+      this.collection.filtered.sort();
+      return false;
+    },
+    showProductsByPath: function(path) {
+      this.collection.filterProductsByPath(path);
+    },
+    showProductsByPhrase: function(phrase) {
+      //console.log(this.index.search(phrase));
+    },
+    renderFilteredList: function() {
+      this.renderList(this.collection.filtered);
+    },
+    renderList: function(collection) {
+      collection = (typeof collection == 'undefined' ?
+        this.collection : collection);
+      var el = this.$el.find('ul');
+      el.empty();
+      collection.forEach(function(product) {
         var view = new ProductView({ model: product });
         el.append(view.render());
       });

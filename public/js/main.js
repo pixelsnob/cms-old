@@ -5,7 +5,8 @@ require.config({
     jquery:         '../bower_components/jquery/jquery',
     underscore:     '../bower_components/underscore/underscore',
     backbone:       '../bower_components/backbone/backbone',
-    jade:           'jade'
+    jade:           'jade',
+    lunr:           '../bower_components/lunr.js/lunr'
   },
   shim: {
     jquery: { exports: '$' },
@@ -14,7 +15,8 @@ require.config({
       deps: [ 'underscore', 'jquery' ],
       exports: 'Backbone'
     },
-    jade: { exports: 'jade' }
+    jade: { exports: 'jade' },
+    lunr: { exports: 'lunr' }
   }
 });
 
