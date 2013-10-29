@@ -33,7 +33,7 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
         this.collection : collection);
       var el = this.$el.find('ul');
       el.empty();
-      collection.forEach(function(product) {
+      collection.each(function(product) {
         var view = new ProductView({ model: product });
         el.append(view.render());
       });
