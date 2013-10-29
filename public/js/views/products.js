@@ -14,7 +14,7 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
       this.setElement(this.el);
       this.collection.fetch();
       this.listenTo(this.collection.filtered, 'reset sort',
-        this.renderFilteredList);
+        _.bind(this.renderList, this, this.collection.filtered));
     },
     toggleSort: function() {
       this.collection.filtered.sort_dir =
@@ -27,9 +27,6 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
     },
     showProductsByPhrase: function(phrase) {
       //console.log(this.index.search(phrase));
-    },
-    renderFilteredList: function() {
-      this.renderList(this.collection.filtered);
     },
     renderList: function(collection) {
       collection = (typeof collection == 'undefined' ?
