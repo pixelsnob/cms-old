@@ -6,7 +6,6 @@ define([
 ],
 function(Backbone, ProductsCollection, jade) {
   return Backbone.View.extend({
-    //collection_current_path: null,
     collection: new ProductsCollection,
     events: {
       'click .sort_products':    'toggleSort',
@@ -27,7 +26,6 @@ function(Backbone, ProductsCollection, jade) {
     },
     showProductsByPath: function(path) {
       this.collection.filterProductsByPath(path);
-      //this.collection_current_path = path;
     },
     showProductsByPhrase: function(phrase) {
       this.collection.filterProductsByPhrase(phrase);

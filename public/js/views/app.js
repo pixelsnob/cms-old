@@ -12,8 +12,12 @@ define([
     },
     initialize: function(opts) {
       this.products_view = new ProductsView;
-      this.$el.find('#content').html(this.products_view.render());
-      this.products_view.showAllProducts();
+      if (this.$el.find('#products').length) {
+        this.products_view.setElement(this.$el.find('#products'));
+      } else {
+        this.products_view.showAllProducts();
+        this.$el.find('#content').html(this.products_view.render());
+      }
     },
     showProductsByPath: function(ev) {
       var a = this.$(ev.currentTarget);
