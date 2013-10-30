@@ -4,10 +4,6 @@ html
     title= title
     link(rel="stylesheet", href="/bower_components/normalize-css/normalize.css")
     link(rel="stylesheet", href="/css/main.css")
-    if settings.force_js_optimize || settings.env == 'production'
-      script(type="text/javascript", src="/js/main-build.js", data-main="/js/main")
-    else
-      script(type="text/javascript", data-main="/js/main", src="/bower_components/requirejs/require.js")
   body
     header
       nav
@@ -23,3 +19,10 @@ html
       block content
 
     footer
+    
+    script(type="text/javascript") window.products = !{JSON.stringify(all_products)}
+    
+    if settings.force_js_optimize || settings.env == 'production'
+      script(type="text/javascript", src="/js/main-build.js", data-main="/js/main")
+    else
+      script(type="text/javascript", data-main="/js/main", src="/bower_components/requirejs/require.js")

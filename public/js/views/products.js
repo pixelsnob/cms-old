@@ -12,7 +12,7 @@ function(Backbone, ProductsCollection, jade) {
       'click .all_products':     'showAllProducts'
     },
     initialize: function() {
-      this.collection.fetch({ reset: true });
+      this.collection.reset(window.products);
       this.listenTo(this.collection.filtered, 'reset sort', this.render);
     },
     showAllProducts: function() {
@@ -29,9 +29,6 @@ function(Backbone, ProductsCollection, jade) {
     },
     showProductsByPhrase: function(phrase) {
       this.collection.filterProductsByPhrase(phrase);
-    },
-    resetSearch: function() {
-      this.collection.filterProductsByPath(this.collection_current_path); 
     },
     render: function() {
       var products = this.collection.filtered.toJSON();

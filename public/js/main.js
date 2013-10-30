@@ -22,14 +22,15 @@ require.config({
 
 define([
   'backbone',
+  'routers/router',
   'views/app'
-], function(Backbone, AppView) {
+], function(Backbone, AppRouter, AppView) {
   $(function() {
-    new AppView;
+    new AppRouter;
     Backbone.history.start({
       pushState: true,
       hashChange: false,
-      silent: true
+      silent: false
     });
   });
 });

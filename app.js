@@ -69,6 +69,7 @@ db.connection.once('connected', function() {
     products.forEach(function(product) {
       lunr_index.add(product);
     });
+    app.locals.all_products = products;
   });
 });
 

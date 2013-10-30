@@ -7,17 +7,11 @@ define([
     el: 'body',
     events: {
       'click nav li.product a':  'showProductsByPath',
-      'submit form':             'showProductsByPhrase',
-      'click .reset_products':   'resetProducts'
+      'submit form':             'showProductsByPhrase'
     },
     initialize: function(opts) {
       this.products_view = new ProductsView;
-      if (this.$el.find('#products').length) {
-        this.products_view.setElement(this.$el.find('#products'));
-      } else {
-        this.products_view.showAllProducts();
-        this.$el.find('#content').html(this.products_view.render());
-      }
+      this.products_view.setElement(this.$el.find('#products'));
     },
     showProductsByPath: function(ev) {
       var a = this.$(ev.currentTarget);
@@ -30,11 +24,6 @@ define([
       if (search.length) {
         this.products_view.showProductsByPhrase(search);
       }
-      return false;
-    },
-    resetProducts: function(ev) {
-      this.products_view.resetSearch();
-      this.$el.find('input[name=search]').val('');
       return false;
     }
   });

@@ -1,17 +1,14 @@
 
-/*
-define([ 'backbone', 'views/products' ], function(Backbone, ProductsView) {
+define([ 'backbone', 'views/app' ], function(Backbone, AppView) {
   return Backbone.Router.extend({ 
     routes: {
       'products/:path': 'showProducts'
     },
     initialize: function() {
-      this.products_view = new ProductsView;
+      this.app_view = new AppView;
     },
     showProducts: function(path) {
-      this.products_view.render({ path: path });
+      this.app_view.products_view.showProductsByPath(path);
     }
   });
 });
-*/
-
