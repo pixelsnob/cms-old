@@ -2,18 +2,4 @@
 extends layout
 
 block content
-  if products.length
-    div#products
-      ul.controls
-        li
-          a.sort_products(href="javascript:;") Sort
-        li
-          a.reset_products(href="javascript:;") Reset
-        li
-          a.all_products(href="javascript:;") Show All
-      ul.products
-        each product in products
-          include product
-  else
-    div No products!
-    
+  include products_list 

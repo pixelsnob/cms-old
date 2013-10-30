@@ -11,9 +11,9 @@ define([
       'click .reset_products':   'resetProducts'
     },
     initialize: function(opts) {
-      this.products_view = new ProductsView({
-        el: this.$el.find('#products')
-      });
+      this.products_view = new ProductsView;
+      this.$el.find('#content').html(this.products_view.render());
+      this.products_view.showAllProducts();
     },
     showProductsByPath: function(ev) {
       var a = this.$(ev.currentTarget);

@@ -2,21 +2,19 @@
 define([
   'backbone',
   'collections/products',
-  'views/product'
+  'jade'
 ],
-function(Backbone, ProductsCollection, ProductView, lunr) {
+function(Backbone, ProductsCollection, jade) {
   return Backbone.View.extend({
-    collection_current_path: null,
+    //collection_current_path: null,
     collection: new ProductsCollection,
     events: {
       'click .sort_products':    'toggleSort',
       'click .all_products':     'showAllProducts'
     },
     initialize: function() {
-      this.setElement(this.el);
       this.collection.fetch({ reset: true });
-      this.listenTo(this.collection.filtered, 'reset sort',
-        _.bind(this.renderList, this, this.collection.filtered));
+      this.listenTo(this.collection.filtered, 'reset sort', this.render);
     },
     showAllProducts: function() {
       this.collection.all();
@@ -29,7 +27,7 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
     },
     showProductsByPath: function(path) {
       this.collection.filterProductsByPath(path);
-      this.collection_current_path = path;
+      //this.collection_current_path = path;
     },
     showProductsByPhrase: function(phrase) {
       this.collection.filterProductsByPhrase(phrase);
@@ -37,16 +35,10 @@ function(Backbone, ProductsCollection, ProductView, lunr) {
     resetSearch: function() {
       this.collection.filterProductsByPath(this.collection_current_path); 
     },
-    renderList: function(collection) {
-      collection = (typeof collection == 'undefined' ?
-        this.collection : collection);
-      var el = this.$el.find('ul.products');
-      el.empty();
-      collection.each(function(product) {
-        var view = new ProductView({ model: product });
-        el.append(view.render());
-      });
-      return el;
+    render: function() {
+      var products = this.collection.filtered.toJSON();
+      this.$el.html(jade.render('products_list', { products: products }));
+      return this.el;
     }
   });
 });
