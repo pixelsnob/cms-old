@@ -20,7 +20,10 @@ require.config({
   }
 });
 
-define([ 'backbone', 'views/app' ], function(Backbone, AppView) {
+define([
+  'backbone',
+  'views/app'
+], function(Backbone, AppView) {
   $(function() {
     new AppView;
     Backbone.history.start({

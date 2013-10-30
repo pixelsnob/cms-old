@@ -7,7 +7,8 @@ define([
     el: 'body',
     events: {
       'click nav li.product a':  'showProductsByPath',
-      'submit form':             'showProductsByPhrase'
+      'submit form':             'showProductsByPhrase',
+      'click .reset_products':   'resetProducts'
     },
     initialize: function(opts) {
       this.products_view = new ProductsView({
@@ -21,8 +22,15 @@ define([
       return false;
     },
     showProductsByPhrase: function(ev) {
-      var search = this.$el.find('input[name=search]').prop('value');
-      this.products_view.showProductsByPhrase(search);
+      var search = this.$el.find('input[name=search]').val().trim();
+      if (search.length) {
+        this.products_view.showProductsByPhrase(search);
+      }
+      return false;
+    },
+    resetProducts: function(ev) {
+      this.products_view.resetSearch();
+      this.$el.find('input[name=search]').val('');
       return false;
     }
   });

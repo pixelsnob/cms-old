@@ -26,6 +26,9 @@ define([
         obj.index.add(product.toJSON());
       });
     },
+    all: function() {
+      return this.filtered.reset(this.models);
+    },
     filterProductsByPath: function(path) {
       return this.filtered.reset(this.where({ path: path }));
     },
