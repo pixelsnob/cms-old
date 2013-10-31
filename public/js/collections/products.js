@@ -5,6 +5,7 @@ define([
   'lunr'
 ], function(Backbone, ProductModel, lunr) {
   var ProductsCollection = Backbone.Collection.extend({
+    url: '/products/all',
     model: ProductModel,
     filtered: null, // See below
     // Search index

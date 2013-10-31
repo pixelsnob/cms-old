@@ -23,14 +23,17 @@ require.config({
 define([
   'backbone',
   'routers/router',
-  'views/app'
-], function(Backbone, AppRouter, AppView) {
+  'views/app',
+  'products'
+], function(Backbone, AppRouter, AppView, products) {
+  var app_view = new AppView;
+  app_view.products_view.collection.reset(products);
+  new AppRouter({ app_view: app_view });
   $(function() {
-    new AppRouter;
     Backbone.history.start({
       pushState: true,
       hashChange: false,
-      silent: false
+      silent: false 
     });
   });
 });

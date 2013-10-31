@@ -18,7 +18,8 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   ProductModel    = require('./models/product.js'),
-  jade_browser    = require('jade-browser');
+  jade_browser    = require('jade-browser'),
+  jade            = require('jade');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -30,6 +31,13 @@ app.configure(function() {
   // Expose compiled templates to frontend
   app.use(jade_browser('/js/jade.js', '**',
     { root: app.get('views'), minify: true }));
+  // AMD wrapper
+  app.locals.amd_module = function(js, module_name) {
+    return jade.renderFile('views/partials/amd_module.jade', {
+      js: js,
+      module_name: module_name
+    });
+  };
 });
 
 app.configure('development', function() {

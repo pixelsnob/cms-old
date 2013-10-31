@@ -12,7 +12,6 @@ function(Backbone, ProductsCollection, jade) {
       'click .all_products':     'showAllProducts'
     },
     initialize: function() {
-      this.collection.reset(window.products);
       this.listenTo(this.collection.filtered, 'reset sort', this.render);
     },
     showAllProducts: function() {
