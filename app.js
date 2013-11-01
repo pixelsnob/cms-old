@@ -18,7 +18,8 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   ProductModel    = require('./models/product.js'),
-  jade_browser    = require('jade-browser');
+  jade_browser    = require('jade-browser'),
+  jsdom           = require('jsdom');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -131,6 +132,10 @@ app.get('/products/:path', function(req, res, next) {
       });
     }
   });
+});
+
+app.get('/vexflow-test', function(req, res, next) {
+  res.render('vexflow-test');
 });
 
 app.post('/search', function(req, res, next) {

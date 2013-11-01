@@ -1,4 +1,8 @@
 
+/**
+ * Application view
+ * 
+ */
 define([
   'backbone',
   'views/products'
@@ -6,6 +10,7 @@ define([
   return Backbone.View.extend({
     el: 'body',
     events: {
+      'click nav li.home a':          'showHome',
       'click nav li.product a':       'showProductsByPath',
       'click nav li.all_products a':  'showAllProducts',
       'keyup input[name=search]':     'autocomplete',
@@ -14,20 +19,27 @@ define([
     initialize: function(opts) {
       this.products_view = new ProductsView;
       var products_el = this.$el.find('#products');
+      this.products_view.setElement(products_el);
+      return;
       if (products_el.length) {
         this.products_view.setElement(products_el);
       } else {
         this.$el.find('#content').append(this.products_view.render());
       }
     },
+    showHome: function() {
+      Backbone.history.navigate('/');
+      return false;
+    },
     showAllProducts: function() {
       this.products_view.showAllProducts(); 
       return false;
     },
     showProductsByPath: function(ev) {
-      var a = this.$(ev.currentTarget);
-      this.products_view.showProductsByPath(a.attr('path'));
-      Backbone.history.navigate(a.attr('href'));
+      var path = (typeof ev == 'object' ?
+        this.$(ev.currentTarget).attr('path') : ev);
+      this.products_view.showProductsByPath(path);
+      Backbone.history.navigate('/products/' + path);
       return false;
     },
     showProductsByPhrase: function(ev) {

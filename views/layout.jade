@@ -8,7 +8,7 @@ html
     header
       nav
         ul
-          li: a(href="/") Home
+          li.home: a(href="/") Home
           li.all_products: a(href="/products/all") All Instruments
           each val in nav
             li.product: a(href="/products/#{val.path}", path="#{val.path}")
