@@ -6,8 +6,9 @@ define([
   return Backbone.View.extend({
     el: 'body',
     events: {
-      'click nav li.product a':  'showProductsByPath',
-      'submit form':             'showProductsByPhrase'
+      'click nav li.product a':     'showProductsByPath',
+      'keyup input[name=search]':   'showProductsByPhrase',
+      'submit form':                'showProductsByPhrase'
     },
     initialize: function(opts) {
       this.products_view = new ProductsView;
@@ -20,11 +21,19 @@ define([
       return false;
     },
     showProductsByPhrase: function(ev) {
-      var search = this.$el.find('input[name=search]').val().trim();
+      var search = this.$(ev.currentTarget).val().trim();
       if (search.length) {
         this.products_view.showProductsByPhrase(search);
       }
       return false;
+    },
+    autocomplete: function(ev) {
+      var search = this.$(ev.currentTarget).val().trim();
+      if (search.length) {
+        this.products_view.showProductsByPhrase(search);
+      } else {
+        this.products_view.showAllProducts();
+      }
     }
   });
 });

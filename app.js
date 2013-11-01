@@ -18,8 +18,7 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   ProductModel    = require('./models/product.js'),
-  jade_browser    = require('jade-browser'),
-  jade            = require('jade');
+  jade_browser    = require('jade-browser');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -35,7 +34,7 @@ app.configure(function() {
 
 app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
-  app.settings.force_js_optimize = true;
+  //app.settings.force_js_optimize = true;
 });
 
 // Create lunr index
