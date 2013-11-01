@@ -4,10 +4,6 @@ if filtered_products.length
     ul.controls
       li
         a.sort_products(href="javascript:;") Sort
-      li
-        a.reset_products(href="javascript:;") Reset
-      li
-        a.all_products(href="javascript:;") Show All
     ul.products
       each product in filtered_products
         include product

@@ -5,6 +5,7 @@ define([
 ], function(Backbone, AppView) {
   return Backbone.Router.extend({ 
     routes: {
+      'products/all': 'showAllProducts',
       'products/:path': 'showProducts'
     },
     initialize: function(opts) {
@@ -13,6 +14,9 @@ define([
     },
     showProducts: function(path) {
       this.app_view.products_view.showProductsByPath(path);
+    },
+    showAllProducts: function() {
+      this.app_view.products_view.showAllProducts();
     }
   });
 });

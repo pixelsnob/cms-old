@@ -100,7 +100,14 @@ app.get('/products/all', function(req, res) {
     if (err) {
       next(err);
     } else {
-      res.json(products);
+      res.format({
+        html: function() {
+          res.render('products', { filtered_products: products });
+        },
+        json: function() {
+          res.json(products);
+        }
+      });
     }
   });
 });
