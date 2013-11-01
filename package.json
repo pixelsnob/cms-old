@@ -16,6 +16,7 @@
     "redis": "~0.9.0",
     "lunr": "~0.4.2",
     "jade-amd": "~0.2.0",
-    "jade-browser": "0.0.14"
+    "jade-browser": "0.0.14",
+    "amd-wrap": "~1.0.1"
   }
 }

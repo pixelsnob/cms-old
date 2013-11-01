@@ -31,7 +31,7 @@ function(Backbone, ProductsCollection, jade) {
     },
     render: function() {
       var products = this.collection.filtered.toJSON();
-      this.$el.html(jade.render('products_list', { products: products }));
+      this.$el.html(jade.render('products_list', { filtered_products: products }));
       return this.el;
     }
   });

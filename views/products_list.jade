@@ -1,5 +1,5 @@
 
-if products.length
+if filtered_products.length
   div#products
     ul.controls
       li
@@ -9,7 +9,7 @@ if products.length
       li
         a.all_products(href="javascript:;") Show All
     ul.products
-      each product in products
+      each product in filtered_products
         include product
 else
   div No products!

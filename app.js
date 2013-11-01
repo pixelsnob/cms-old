@@ -29,20 +29,13 @@ app.configure(function() {
   app.use(express.urlencoded()); 
   app.use(express.json());
   // Expose compiled templates to frontend
-  app.use(jade_browser('/js/jade.js', '**',
+  app.use(jade_browser('/js/jade.js', [ 'products_list.jade' ],
     { root: app.get('views'), minify: true }));
-  // AMD wrapper
-  app.locals.amd_module = function(js, module_name) {
-    return jade.renderFile('views/partials/amd_module.jade', {
-      js: js,
-      module_name: module_name
-    });
-  };
 });
 
 app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
-  //app.settings.force_js_optimize = true;
+  app.settings.force_js_optimize = true;
 });
 
 // Create lunr index
@@ -77,7 +70,7 @@ db.connection.once('connected', function() {
     products.forEach(function(product) {
       lunr_index.add(product);
     });
-    app.locals.all_products = products;
+    app.locals.products = products;
   });
 });
 
@@ -124,7 +117,7 @@ app.get('/products/:path', function(req, res, next) {
     } else {
       res.format({
         html: function() {
-          res.render('products', { products: products });
+          res.render('products', { filtered_products: products });
         },
         json: function() {
           res.json(products);
@@ -143,7 +136,7 @@ app.post('/search', function(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.render('products', { products: products });
+      res.render('products', { filtered_products: products });
     }
   });
 });

@@ -4,7 +4,8 @@
   name: 'main',
   paths: {
     require_lib: '../bower_components/requirejs/require',
-    jade: 'empty:'
+    jade: 'empty:',
+    products: 'empty:'
   },
   include: [ 'require_lib' ],
   out: 'main-build.js',

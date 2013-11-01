@@ -1,9 +1,8 @@
 
 define([
   'backbone',
-  'views/app',
-  'products'
-], function(Backbone, AppView, products) {
+  'views/app'
+], function(Backbone, AppView) {
   return Backbone.Router.extend({ 
     routes: {
       'products/:path': 'showProducts'

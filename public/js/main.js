@@ -27,15 +27,19 @@ define([
   'products'
 ], function(Backbone, AppRouter, AppView, products) {
   var app_view = new AppView;
-  app_view.products_view.collection.reset(products);
-  new AppRouter({ app_view: app_view });
-  $(function() {
-    Backbone.history.start({
-      pushState: true,
-      hashChange: false,
-      silent: false 
+  app_view.products_view.collection.on('reset', function() {
+    // Only start things when products are loaded
+    new AppRouter({ app_view: app_view });
+    $(function() {
+      Backbone.history.start({
+        pushState: true,
+        hashChange: false,
+        silent: false 
+      });
     });
   });
+  // Load all products
+  app_view.products_view.collection.reset(products);
 });
 
 require.onError = function(err) {
