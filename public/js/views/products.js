@@ -14,8 +14,10 @@ function(Backbone, ProductsCollection, jade) {
     events: {
       'click .sort_products':    'toggleSort'
     },
-    initialize: function() {
+    initialize: function(opts) {
+      this.setElement(this.el);
       this.listenTo(this.collection.filtered, 'reset sort', this.render);
+      this.collection.fetch({ reset: true });
     },
     showAllProducts: function() {
       this.collection.all();
@@ -33,9 +35,8 @@ function(Backbone, ProductsCollection, jade) {
       return false;
     },
     render: function() {
-      var products = this.collection.filtered.toJSON();
       this.$el.html(jade.render('products_list', {
-        filtered_products: products }));
+        filtered_products: this.collection.filtered.toJSON() }));
       return this.el;
     }
   });

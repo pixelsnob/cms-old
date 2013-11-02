@@ -50,7 +50,7 @@ define([
       } else {
         return (a > b ? 1 : -1);
       }
-    },
+    }
   });
 
   // Attach a sub-collection to store filtered models

@@ -1,8 +1,4 @@
 
-/**
- * Application view
- * 
- */
 define([
   'backbone',
   'views/products'
@@ -17,15 +13,7 @@ define([
       'submit form':                  'showProductsByPhrase'
     },
     initialize: function(opts) {
-      this.products_view = new ProductsView;
-      var products_el = this.$el.find('#products');
-      this.products_view.setElement(products_el);
-      return;
-      if (products_el.length) {
-        this.products_view.setElement(products_el);
-      } else {
-        this.$el.find('#content').append(this.products_view.render());
-      }
+      this.products_view = new ProductsView({ el: this.$el.find('#products') });
     },
     showHome: function() {
       Backbone.history.navigate('/');
@@ -33,6 +21,7 @@ define([
     },
     showAllProducts: function() {
       this.products_view.showAllProducts(); 
+      Backbone.history.navigate('/products/all');
       return false;
     },
     showProductsByPath: function(ev) {

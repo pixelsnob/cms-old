@@ -18,8 +18,7 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   ProductModel    = require('./models/product.js'),
-  jade_browser    = require('jade-browser'),
-  jsdom           = require('jsdom');
+  jade_browser    = require('jade-browser');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -29,8 +28,11 @@ app.configure(function() {
   app.use(express.urlencoded()); 
   app.use(express.json());
   // Expose compiled templates to frontend
-  app.use(jade_browser('/js/jade.js', [ 'products_list.jade' ],
-    { root: app.get('views'), minify: true }));
+  app.use(jade_browser(
+    '/js/jade.js',
+    [ 'products_list.jade' ],
+    { root: app.get('views'), minify: true }
+  ));
 });
 
 app.configure('development', function() {
@@ -132,10 +134,6 @@ app.get('/products/:path', function(req, res, next) {
       });
     }
   });
-});
-
-app.get('/vexflow-test', function(req, res, next) {
-  res.render('vexflow-test');
 });
 
 app.post('/search', function(req, res, next) {
