@@ -59,14 +59,14 @@ define([
   });
 
   // Attach a sub-collection to store filtered models
-  var ProductsFilteredCollection = Backbone.Collection.extend({
+  ProductsCollection.prototype.filtered = new (Backbone.Collection.extend({
     // Copy only what we need
     model:      ProductsCollection.prototype.model,
     comparator: ProductsCollection.prototype.comparator,
     sort_attr:  ProductsCollection.prototype.sort_attr,
     sort_dir:   ProductsCollection.prototype.sort_dir
-  });
-  ProductsCollection.prototype.filtered = new ProductsFilteredCollection;
+  }));
+
   return ProductsCollection;
 });
 
