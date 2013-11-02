@@ -5,6 +5,8 @@ define([
 ], function(Backbone, ProductsView) {
   return Backbone.View.extend({
     el: 'body',
+    autocomplete_busy: false,
+    autocomplete_iid: null, // setInterval() id
     events: {
       'click nav li.home a':          'showHome',
       'click nav li.product a':       'showProductsByPath',
@@ -39,13 +41,20 @@ define([
       return false;
     },
     autocomplete: function(ev) {
-      var search = this.$(ev.currentTarget).val().trim();
-      if (search.length) {
-        this.products_view.showProductsByPhrase(search);
-      } else {
-        this.products_view.showAllProducts();
+      if (!this.autocomplete_busy) {
+        this.autocomplete_busy = true;
+        var obj = this;
+        this.autocomplete_iid = setInterval(function() {
+          var search = obj.$(ev.currentTarget).val().trim();
+          if (search.length) {
+            obj.products_view.showProductsByPhrase(search);
+          } else {
+            obj.products_view.showAllProducts();
+          }
+          obj.autocomplete_busy = false;
+          clearInterval(obj.autocomplete_iid);
+        }, 400);
       }
     }
   });
 });
-
