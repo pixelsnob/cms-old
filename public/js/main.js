@@ -23,11 +23,12 @@ require.config({
 define([
   'backbone',
   'routers/router',
-  'views/app'
-], function(Backbone, AppRouter, AppView) {
+  'views/app',
+  'vent'
+], function(Backbone, AppRouter, AppView, vent) {
   $(function() {
     var app_view = new AppView; 
-    app_view.products_view.collection.on('reset', function() {
+    vent.on('products:loaded', function() {
       new AppRouter({ app_view: app_view });
       Backbone.history.start({
         pushState: true,

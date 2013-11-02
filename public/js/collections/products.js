@@ -2,8 +2,9 @@
 define([
   'backbone',
   'models/product',
-  'lunr'
-], function(Backbone, ProductModel, lunr) {
+  'lunr',
+  'vent'
+], function(Backbone, ProductModel, lunr, vent) {
   var ProductsCollection = Backbone.Collection.extend({
     url: '/products/all',
     model: ProductModel,
@@ -18,7 +19,11 @@ define([
     sort_attr: 'description',
     sort_dir: 1,
     initialize: function() {
-      this.listenTo(this, 'reset', this.populateIndex);
+      var obj = this;
+      this.listenTo(this, 'reset', function() {
+        obj.populateIndex();
+        vent.trigger('products:loaded');
+      });
     },
     populateIndex: function() {
       var obj = this;

@@ -1,4 +1,8 @@
 
+/**
+ * Global event aggregator
+ * 
+ */
 define([
   'backbone'
 ], function(Backbone) {
