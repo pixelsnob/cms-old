@@ -15,7 +15,9 @@ define([
       'submit form':                  'showProductsByPhrase'
     },
     initialize: function(opts) {
-      this.products_view = new ProductsView({ el: this.$el.find('#products') });
+      this.products_view = new ProductsView({
+        el: this.$el.find('#products')
+      });
     },
     showHome: function() {
       Backbone.history.navigate('/');
@@ -48,11 +50,13 @@ define([
           var search = obj.$(ev.currentTarget).val().trim();
           if (search.length) {
             obj.products_view.showProductsByPhrase(search);
+            Backbone.history.navigate('/products/search/' + search);
           } else {
             obj.products_view.showAllProducts();
+            Backbone.history.navigate('/products/all');
           }
-          obj.autocomplete_busy = false;
           clearInterval(obj.autocomplete_iid);
+          obj.autocomplete_busy = false;
         }, 400);
       }
     }

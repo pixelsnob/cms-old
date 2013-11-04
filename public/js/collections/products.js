@@ -1,14 +1,15 @@
 
 define([
-  'backbone',
+  'collections/base',
   'models/product',
   'lunr',
   'vent'
-], function(Backbone, ProductModel, lunr, vent) {
-  var ProductsCollection = Backbone.Collection.extend({
+], function(BaseCollection, ProductModel, lunr, vent) {
+  return BaseCollection.extend({
     url: '/products/all',
     model: ProductModel,
-    filtered: null, // See below
+    // Store filtered results here
+    filtered: new BaseCollection,
     // Search index
     index: lunr(function() {
       this.field('description');
@@ -23,6 +24,13 @@ define([
       this.listenTo(this, 'reset', function() {
         obj.populateIndex();
         vent.trigger('products:loaded');
+      });
+      // Configure filtered collection
+      _.extend(this.filtered, {
+        model:      this.model,
+        sort_attr:  this.sort_attr,
+        sort_dir:   this.sort_dir,
+        comparator: this.comparator
       });
     },
     populateIndex: function() {
@@ -57,16 +65,5 @@ define([
       }
     }
   });
-
-  // Attach a sub-collection to store filtered models
-  ProductsCollection.prototype.filtered = new (Backbone.Collection.extend({
-    // Copy only what we need
-    model:      ProductsCollection.prototype.model,
-    comparator: ProductsCollection.prototype.comparator,
-    sort_attr:  ProductsCollection.prototype.sort_attr,
-    sort_dir:   ProductsCollection.prototype.sort_dir
-  }));
-
-  return ProductsCollection;
 });
 
