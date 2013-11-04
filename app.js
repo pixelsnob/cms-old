@@ -14,6 +14,7 @@ var
   DB_URI          = 'mongodb://localhost/lapr',
   express         = require('express'),
   app             = express(),
+  routes          = require('./routes')(app),
   lunr            = require('lunr'),
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
@@ -49,12 +50,13 @@ var lunr_index = lunr(function () {
   this.field('maker');
 });
 
-// Load data
 db.connection.once('connected', function() {
   console.log('mongo connected');
+  // Get product categories for nav
   ProductModel.aggregate(
     { $group: { _id: '$path', category: { $first: '$category' }}}, 
     { $project: { _id: 0, category: 1, path: '$_id' }},
+    { $sort: { category: 1 }},
     function(err, categories) {
       if (err) {
         console.log(err);
@@ -64,92 +66,29 @@ db.connection.once('connected', function() {
       app.locals.paths = categories.map(function(n) { return n.path; });
     }
   );
-  ProductModel.find({}, null, function(err, products) {
-    if (err) {
-      console.log(err);
-      process.exit(1);
-    }
-    products.forEach(function(product) {
-      lunr_index.add(product);
-    });
-    app.locals.products = products;
-  });
 });
-
 db.connection.on('error', function(err) {
   console.error('mongo error: ' + err);
 });
-
 db.connection.on('disconnected', function(err) {
   console.log('mongo disconnected');
 });
-
 db.connection.on('reconnected', function() {
   console.log('mongo reconnected');
 });
 
-// Routes
 app.use(function(req, res, next) {
   app.locals.search = req.body.search || '';
   next();
 });
 
-app.get('/', function(req, res) {
-  res.render('index', { title: 'Home' });
-});
+// Routes
+app.get('/', routes.home);
+app.get('/products/all', routes.all_products);
+app.get('/products/:path', routes.products_by_path);
+app.post('/search', routes.search);
 
-app.get('/products/all', function(req, res) {
-  ProductModel.find({}, function(err, products) {
-    if (err) {
-      next(err);
-    } else {
-      res.format({
-        html: function() {
-          res.render('products', { filtered_products: products });
-        },
-        json: function() {
-          res.json(products);
-        }
-      });
-    }
-  });
-});
-
-app.get('/products/:path', function(req, res, next) {
-  if (app.locals.paths.indexOf(req.params.path) == -1) {
-    next();
-    return;
-  }
-  ProductModel.find({ path: req.params.path }, function(err, products) {
-    if (err) {
-      next(err);
-    } else {
-      res.format({
-        html: function() {
-          res.render('products', { filtered_products: products });
-        },
-        json: function() {
-          res.json(products);
-        }
-      });
-    }
-  });
-});
-
-app.post('/search', function(req, res, next) {
-  var search = req.body.search || '';
-  var ids = lunr_index.search(search).map(function(r) {
-    return r.ref; 
-  });
-  ProductModel.find({ _id: { $in: ids }}, null, function(err, products) {
-    if (err) {
-      next(err);
-    } else {
-      res.render('products', { filtered_products: products });
-    }
-  });
-});
-
+// Error page
 app.use(function(err, req, res, next){
   console.log(err.stack);
   res.render('error', { error: err.message });
