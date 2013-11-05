@@ -37,6 +37,7 @@ function(Backbone, ProductsCollection, ProductView, jade) {
     },
     render: function() {
       this.$el.find('.products').empty();
+      var products = [];
       this.collection.filtered.each(_.bind(function(product) {
         var product_view = new ProductView({ model: product });
         this.$el.find('.products').append(product_view.render());

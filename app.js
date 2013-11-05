@@ -54,9 +54,9 @@ db.connection.once('connected', function() {
   console.log('mongo connected');
   // Get product categories for nav
   ProductModel.aggregate(
-    { $group: { _id: '$path', category: { $first: '$category' }}}, 
-    { $project: { _id: 0, category: 1, path: '$_id' }},
-    { $sort: { category: 1 }},
+    { $group: { _id: '$path', category: { $first: '$category' } } }, 
+    { $project: { _id: 0, category: 1, path: '$_id' } },
+    { $sort: { category: 1 } },
     function(err, categories) {
       if (err) {
         console.log(err);
@@ -84,10 +84,10 @@ app.use(function(req, res, next) {
 
 // Routes
 app.get('/', routes.home);
-app.get('/products/all', routes.allProducts);
+app.get('/products', routes.products);
 app.get('/products/:path', routes.productsByPath);
-app.get('/js_templates/:template', routes.jsTemplates);
 app.post('/search', routes.search);
+app.post('/products', routes.saveProduct);
 
 // Error page
 app.use(function(err, req, res, next){

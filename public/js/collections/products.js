@@ -6,7 +6,7 @@ define([
   'vent'
 ], function(BaseCollection, ProductModel, lunr, vent) {
   return BaseCollection.extend({
-    url: '/products/all',
+    url: '/products',
     model: ProductModel,
     // Store filtered results here
     filtered: new BaseCollection,

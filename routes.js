@@ -33,9 +33,10 @@ module.exports = function(app) {
         });
     },
     // Show all products
-    allProducts: function(req, res, next) {
-      ProductModel.find()
-        .sort({ description: 1 })
+    products: function(req, res, next) {
+      ProductModel
+        .find()
+        .sort('description')
         .exec(function(err, products) {
           if (err) {
             next(err);
@@ -51,19 +52,25 @@ module.exports = function(app) {
           }
         });
     },
+    saveProduct: function(req, res, next) {
+      res.json({ ok: true });
+    },
     // Perform a product search
     search: function(req, res, next) {
       var search = req.body.search || '';
       var ids = lunr_index.search(search).map(function(r) {
         return r.ref; 
       });
-      ProductModel.find({ _id: { $in: ids }}, null, function(err, products) {
-        if (err) {
-          next(err);
-        } else {
-          res.render('products', { filtered_products: products });
-        }
-      });
+      ProductModel
+        .find()
+        .where('_id').in(ids)
+        .exec(function(err, products) {
+          if (err) {
+            next(err);
+          } else {
+            res.render('products', { filtered_products: products });
+          }
+        });
     }
   };
 };
