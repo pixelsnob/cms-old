@@ -24,6 +24,9 @@ define([
         this.populateIndex();
         vent.trigger('products:loaded');
       }, this);
+      this.listenTo(this.filtered, 'change', function() {
+        this.filtered.sort();
+      });
       // Configure filtered collection
       _.extend(this.filtered, {
         model:      this.model,
