@@ -18,3 +18,23 @@ nav {
   padding: 2px;
   overflow: hidden;
 }
+
+[contenteditable]:hover:after {
+  content: ' edit';
+  font-style: italic;
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #ccc;
+}
+  
+[contenteditable]:hover, [contenteditable]:focus {
+  background: #FFFFD3;
+}
+
+[contenteditable]:focus {
+  padding: 5px;
+}
+
+[contenteditable]:focus:after {
+  content: '';
+}

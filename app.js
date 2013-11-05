@@ -31,14 +31,14 @@ app.configure(function() {
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',
-    [ 'products_list.jade' ],
-    { root: app.get('views'), minify: true }
+    [ 'product*' ],
+    { root: app.get('views'), minify: false, debug: true }
   ));
 });
 
 app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
-  app.settings.force_js_optimize = true;
+  //app.settings.force_js_optimize = true;
 });
 
 // Create lunr index
@@ -84,8 +84,9 @@ app.use(function(req, res, next) {
 
 // Routes
 app.get('/', routes.home);
-app.get('/products/all', routes.all_products);
-app.get('/products/:path', routes.products_by_path);
+app.get('/products/all', routes.allProducts);
+app.get('/products/:path', routes.productsByPath);
+app.get('/js_templates/:template', routes.jsTemplates);
 app.post('/search', routes.search);
 
 // Error page

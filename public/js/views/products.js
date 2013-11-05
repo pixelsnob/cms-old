@@ -6,9 +6,10 @@
 define([
   'backbone',
   'collections/products',
+  'views/product',
   'jade'
 ],
-function(Backbone, ProductsCollection, jade) {
+function(Backbone, ProductsCollection, ProductView, jade) {
   return Backbone.View.extend({
     collection: new ProductsCollection,
     events: {
@@ -35,8 +36,11 @@ function(Backbone, ProductsCollection, jade) {
       return false;
     },
     render: function() {
-      this.$el.html(jade.render('products_list', {
-        filtered_products: this.collection.filtered.toJSON() }));
+      this.$el.find('.products').empty();
+      this.collection.filtered.each(_.bind(function(product) {
+        var product_view = new ProductView({ model: product });
+        this.$el.find('.products').append(product_view.render());
+      }, this));
       return this.el;
     }
   });

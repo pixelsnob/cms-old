@@ -1,11 +1,12 @@
 
-if filtered_products.length
-  div#products
-    ul.controls
-      li
-        a.sort_products(href="javascript:;") Sort
-    ul.products
+div#products
+  ul.controls
+    li
+      a.sort_products(href="javascript:;") Sort
+  ul.products
+    if typeof filtered_products != 'undefined' && filtered_products.length
       each product in filtered_products
         include product
-else
-  div No products!
+    else
+      li No products!
+

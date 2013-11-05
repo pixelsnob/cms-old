@@ -1,12 +1,15 @@
 
-var ProductModel = require('./models/product.js');
+var ProductModel = require('./models/product.js'),
+  jade           = require('jade');
 
 module.exports = function(app) {
   return {
+    // Home page
     home: function(req, res, next) {
       res.render('index', { title: 'Home' });
     },
-    products_by_path: function(req, res, next) {
+    // Show products for current path (category)
+    productsByPath: function(req, res, next) {
       if (app.locals.paths.indexOf(req.params.path) == -1) {
         next();
         return;
@@ -29,7 +32,8 @@ module.exports = function(app) {
           }
         });
     },
-    all_products: function(req, res, next) {
+    // Show all products
+    allProducts: function(req, res, next) {
       ProductModel.find()
         .sort({ description: 1 })
         .exec(function(err, products) {
@@ -47,6 +51,7 @@ module.exports = function(app) {
           }
         });
     },
+    // Perform a product search
     search: function(req, res, next) {
       var search = req.body.search || '';
       var ids = lunr_index.search(search).map(function(r) {

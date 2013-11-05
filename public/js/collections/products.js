@@ -20,11 +20,10 @@ define([
     sort_attr: 'description',
     sort_dir: 1,
     initialize: function() {
-      var obj = this;
-      this.listenTo(this, 'reset', function() {
-        obj.populateIndex();
+      this.on('reset', function() {
+        this.populateIndex();
         vent.trigger('products:loaded');
-      });
+      }, this);
       // Configure filtered collection
       _.extend(this.filtered, {
         model:      this.model,
@@ -34,10 +33,9 @@ define([
       });
     },
     populateIndex: function() {
-      var obj = this;
-      _.each(this.models, function(product) {
-        obj.index.add(product.toJSON());
-      });
+      _.each(this.models, _.bind(function(product) {
+        this.index.add(product.toJSON());
+      }, this));
     },
     all: function() {
       return this.filtered.reset(this.models);
@@ -47,11 +45,10 @@ define([
     },
     filterProductsByPhrase: function(phrase) {
       var search  = this.index.search(phrase),
-        products  = [],
-        obj       = this;
-      _.each(search, function(product) {
-        products.push(obj.findWhere({ _id: product.ref }));
-      });
+        products  = [];
+      _.each(search, _.bind(function(product) {
+        products.push(this.findWhere({ _id: product.ref }));
+      }, this));
       return this.filtered.reset(products);
     },
     comparator: function(a, b) {

@@ -45,19 +45,18 @@ define([
     autocomplete: function(ev) {
       if (!this.autocomplete_busy) {
         this.autocomplete_busy = true;
-        var obj = this;
-        this.autocomplete_iid = setInterval(function() {
-          var search = obj.$(ev.currentTarget).val().trim();
+        this.autocomplete_iid = setInterval(_.bind(function() {
+          var search = this.$(ev.currentTarget).val().trim();
           if (search.length) {
-            obj.products_view.showProductsByPhrase(search);
+            this.products_view.showProductsByPhrase(search);
             Backbone.history.navigate('/products/search/' + search);
           } else {
-            obj.products_view.showAllProducts();
+            this.products_view.showAllProducts();
             Backbone.history.navigate('/products/all');
           }
-          clearInterval(obj.autocomplete_iid);
-          obj.autocomplete_busy = false;
-        }, 400);
+          clearInterval(this.autocomplete_iid);
+          this.autocomplete_busy = false;
+        }, this), 400);
       }
     }
   });
