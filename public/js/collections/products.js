@@ -20,7 +20,7 @@ define([
     sort_attr: 'description',
     sort_dir: 1,
     initialize: function() {
-      this.on('reset', function() {
+      this.listenTo(this, 'reset', function() {
         this.populateIndex();
         vent.trigger('products:loaded');
       }, this);

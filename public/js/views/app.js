@@ -1,8 +1,9 @@
 
 define([
   'backbone',
-  'views/products'
-], function(Backbone, ProductsView) {
+  'views/products',
+  'views/flash_message'
+], function(Backbone, ProductsView, MessageView) {
   return Backbone.View.extend({
     el: 'body',
     autocomplete_busy: false,
@@ -14,9 +15,12 @@ define([
       'keyup input[name=search]':     'autocomplete',
       'submit form':                  'showProductsByPhrase'
     },
-    initialize: function(opts) {
+    initialize: function() {
       this.products_view = new ProductsView({
         el: this.$el.find('#products')
+      });
+      this.message_view = new MessageView({
+        el: this.$el.find('.flash_message')
       });
     },
     showHome: function() {

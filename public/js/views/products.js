@@ -40,8 +40,9 @@ function(Backbone, ProductsCollection, ProductView, jade) {
       var products = [];
       this.collection.filtered.each(_.bind(function(product) {
         var product_view = new ProductView({ model: product });
-        this.$el.find('.products').append(product_view.render());
+        products.push(product_view.render());
       }, this));
+      this.$el.find('.products').append(products);
       return this.el;
     }
   });

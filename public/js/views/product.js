@@ -2,8 +2,9 @@
 define([
   'backbone',
   'models/product',
-  'jade'
-], function(Backbone, ProductModel, jade) {
+  'jade',
+  'vent'
+], function(Backbone, ProductModel, jade, vent) {
   return Backbone.View.extend({
     tagName: 'li',
     model: ProductModel,
@@ -28,6 +29,7 @@ define([
             // yay
             this.busy = false;
             el.blur();
+            vent.trigger('message', 'yo');
           }, this),
           error: _.bind(function(model, xhr, opts) {
             // show a msg
