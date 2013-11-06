@@ -88,7 +88,7 @@ app.get('/products', routes.products);
 app.get('/products/:path', routes.productsByPath);
 app.post('/search', routes.search);
 app.post('/products', routes.saveProduct);
-app.put('/products/:id', routes.saveProduct);
+app.put('/products/:id', routes.updateProduct);
 
 // Error page
 app.use(function(err, req, res, next){

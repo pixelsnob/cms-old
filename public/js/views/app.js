@@ -56,7 +56,7 @@ define([
             Backbone.history.navigate('/products/search/' + search);
           } else {
             this.products_view.showAllProducts();
-            Backbone.history.navigate('/products/all');
+            Backbone.history.navigate('/products');
           }
           clearInterval(this.autocomplete_iid);
           this.autocomplete_busy = false;

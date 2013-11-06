@@ -57,8 +57,8 @@ define([
       return this.filtered.reset(products);
     },
     comparator: function(a, b) {
-      var a = a.get(this.sort_attr),
-          b = b.get(this.sort_attr);
+      var a = a.get(this.sort_attr).toLowerCase(),
+          b = b.get(this.sort_attr).toLowerCase();
       if (a == b) { return 0; }
       if (this.sort_dir == -1) {
         return (a < b ? 1 : -1);

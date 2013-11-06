@@ -17,6 +17,7 @@
     "lunr": "~0.4.2",
     "jade-amd": "~0.2.0",
     "jade-browser": "0.0.14",
-    "amd-wrap": "~1.0.1"
+    "amd-wrap": "~1.0.1",
+    "underscore": "~1.5.2"
   }
 }

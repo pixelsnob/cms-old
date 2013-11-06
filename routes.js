@@ -1,6 +1,7 @@
 
 var ProductModel = require('./models/product.js'),
-  jade           = require('jade');
+  jade           = require('jade'),
+  _              = require('underscore');
 
 module.exports = function(app) {
   return {
@@ -52,6 +53,27 @@ module.exports = function(app) {
           }
         });
     },
+    // Update
+    updateProduct: function(req, res, next) {
+      if (typeof req.body == 'object' && req.body._id) {
+        var query = { _id: req.body._id },
+          product = _.omit(req.body, '_id');
+        ProductModel.update(query, product, function(err) {
+          if (err) {
+            next(err);
+          } else {
+            res.format({
+              json: function() {
+                res.json({ ok: 1 });
+              },
+              html: function() {
+                res.send('ok');
+              }
+            });
+          }
+        });
+      }
+    },
     saveProduct: function(req, res, next) {
       //console.log(req.body);
       res.json({ ok: true });
@@ -72,6 +94,6 @@ module.exports = function(app) {
             res.render('products', { filtered_products: products });
           }
         });
-    }
+    },
   };
 };
