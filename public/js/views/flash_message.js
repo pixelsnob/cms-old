@@ -7,16 +7,15 @@ define([
     events: {},
     initialize: function() {
       this.setElement(this.el);
-      this.listenTo(vent, 'message', function(model) {
-        this.render('Changes saved ' + model);
-        console.log(this);
+      this.listenTo(vent, 'message', function(msg) {
+        this.render(msg);
       });
     },
     render: function(msg) {
       this.$el.html(msg).show();
       setTimeout(_.bind(function() {
         this.$el.fadeOut();
-      }, this), 5000);
+      }, this), 3000);
     }
   });
 });

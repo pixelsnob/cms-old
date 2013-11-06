@@ -24,7 +24,9 @@ define([
         this.populateIndex();
         vent.trigger('products:loaded');
       }, this);
-      this.listenTo(this.filtered, 'change', function() {
+      this.listenTo(this.filtered, 'change', function(model, opts) {
+        // Update the original collection with new attributes
+        this.add(model, { merge: true });
         this.filtered.sort();
       });
       // Configure filtered collection

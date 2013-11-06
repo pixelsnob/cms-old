@@ -29,7 +29,7 @@ define([
     },
     showAllProducts: function() {
       this.products_view.showAllProducts(); 
-      Backbone.history.navigate('/products/all');
+      Backbone.history.navigate('/products');
       return false;
     },
     showProductsByPath: function(ev) {

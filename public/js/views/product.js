@@ -29,10 +29,10 @@ define([
             // yay
             this.busy = false;
             el.blur();
-            vent.trigger('message', 'yo');
+            vent.trigger('message', 'Instrument saved');
           }, this),
           error: _.bind(function(model, xhr, opts) {
-            // show a msg
+            vent.trigger('message', 'Freaking hell');
             this.busy = false;
           }, this)
         });

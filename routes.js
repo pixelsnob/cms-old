@@ -53,6 +53,7 @@ module.exports = function(app) {
         });
     },
     saveProduct: function(req, res, next) {
+      //console.log(req.body);
       res.json({ ok: true });
     },
     // Perform a product search
