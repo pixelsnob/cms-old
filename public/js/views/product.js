@@ -3,8 +3,9 @@ define([
   'backbone',
   'models/product',
   'jade',
-  'vent'
-], function(Backbone, ProductModel, jade, vent) {
+  'modules/vent',
+  'modules/dialog'
+], function(Backbone, ProductModel, jade, vent, dialog) {
   return Backbone.View.extend({
     tagName: 'li',
     model: ProductModel,
@@ -30,10 +31,16 @@ define([
             this.busy = false;
             el.blur();
             vent.trigger('message', 'Instrument saved');
+            dialog.alert({
+              message: 'nice',
+              callback: function(val) {
+                console.log('cool');
+              }
+            });
           }, this),
           error: _.bind(function(model, xhr, opts) {
-            vent.trigger('message', 'Freaking hell');
             this.busy = false;
+            vent.trigger('message', 'Freaking hell');
           }, this)
         });
         return false;

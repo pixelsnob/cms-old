@@ -1,7 +1,7 @@
 
 define([
   'backbone',
-  'vent'
+  'modules/vent'
 ], function(Backbone, vent) {
   return Backbone.View.extend({
     events: {},

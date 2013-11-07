@@ -3,7 +3,7 @@ define([
   'collections/base',
   'models/product',
   'lunr',
-  'vent'
+  'modules/vent'
 ], function(BaseCollection, ProductModel, lunr, vent) {
   return BaseCollection.extend({
     url: '/products',

@@ -2,12 +2,14 @@
 require.config({
   enforceDefine: true,
   paths: {
-    jquery:     '../bower_components/jquery/jquery',
-    underscore: '../bower_components/underscore-amd/underscore',
-    backbone:   '../bower_components/backbone-amd/backbone',
-    jade:       'jade',
-    lunr:       '../bower_components/lunr.js/lunr',
-    forms:      '../bower_components/backbone-forms/distribution.amd/backbone-forms'
+    jquery:       '../bower_components/jquery/jquery',
+    underscore:   '../bower_components/underscore-amd/underscore',
+    backbone:     '../bower_components/backbone-amd/backbone',
+    jade:         'jade',
+    lunr:         '../bower_components/lunr.js/lunr',
+    forms:        '../bower_components/backbone-forms/distribution.amd/backbone-forms',
+    vex:          '../bower_components/vex/js/vex',
+    'vex.dialog': '../bower_components/vex/js/vex.dialog'
   },
   shim: {
     jade: { exports: 'jade' },
@@ -19,7 +21,7 @@ define([
   'backbone',
   'routers/router',
   'views/app',
-  'vent',
+  'modules/vent',
   'forms'
 ], function(Backbone, AppRouter, AppView, vent) {
   $(function() {
