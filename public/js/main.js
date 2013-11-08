@@ -12,8 +12,9 @@ require.config({
     'vex.dialog': '../bower_components/vex/js/vex.dialog'
   },
   shim: {
-    jade: { exports: 'jade' },
-    lunr: { exports: 'lunr' }
+    jade:         { exports: 'jade' },
+    lunr:         { exports: 'lunr' },
+    'vex.dialog': { deps: [ 'vex' ], exports: 'vex' }
   }
 });
 
@@ -22,7 +23,8 @@ define([
   'routers/router',
   'views/app',
   'modules/vent',
-  'forms'
+  'forms',
+  'modules/csrf'
 ], function(Backbone, AppRouter, AppView, vent) {
   $(function() {
     var app_view = new AppView; 

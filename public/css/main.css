@@ -38,3 +38,10 @@ nav {
 [contenteditable]:focus:after {
   content: '';
 }
+
+.flash_message {
+  height: 25px;
+}
+
+
+

@@ -6,10 +6,10 @@
 define([
   'backbone',
   'collections/products',
-  'views/product',
+  'views/editable_product',
   'jade'
 ],
-function(Backbone, ProductsCollection, ProductView, jade) {
+function(Backbone, ProductsCollection, EditableProductView, jade) {
   return Backbone.View.extend({
     collection: new ProductsCollection,
     events: {
@@ -39,7 +39,7 @@ function(Backbone, ProductsCollection, ProductView, jade) {
       this.$el.find('.products').empty();
       var products = [];
       this.collection.filtered.each(_.bind(function(product) {
-        var product_view = new ProductView({ model: product });
+        var product_view = new EditableProductView({ model: product });
         products.push(product_view.render());
       }, this));
       this.$el.find('.products').append(products);

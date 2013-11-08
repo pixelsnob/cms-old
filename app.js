@@ -28,6 +28,13 @@ app.configure(function() {
   app.locals.pretty = true;
   app.use(express.urlencoded()); 
   app.use(express.json());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'hotdog' }));
+  app.use(express.csrf());
+  app.use(function(req, res, next){
+    app.settings.csrf = req.csrfToken();
+    next();
+  });
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',
