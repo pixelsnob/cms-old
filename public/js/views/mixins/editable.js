@@ -6,7 +6,6 @@ define([
   'modules/vent',
 ], function(vent) {
   return {
-    busy: false,
     events: {
       'keydown [contenteditable]': 'editKeydown',
       'click': function() {}

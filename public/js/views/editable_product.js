@@ -1,7 +1,7 @@
 
 define([
   'views/product',
-  'views/editable'
+  'views/mixins/editable'
 ], function(ProductView, EditableView) {
   // Mixin editable props and events
   _.defaults(ProductView.prototype, EditableView);

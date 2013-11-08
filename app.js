@@ -45,7 +45,7 @@ app.configure(function() {
 
 app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
-  //app.settings.force_js_optimize = true;
+  app.settings.force_js_optimize = true;
 });
 
 // Create lunr index
