@@ -20,16 +20,18 @@ require.config({
 
 define([
   'backbone',
+  'products',
+  'collections/products',
   'routers/router',
   'views/app',
-  'modules/vent',
-  'forms',
   'modules/csrf'
-], function(Backbone, AppRouter, AppView, vent) {
+], function(Backbone, products, ProductsCollection, AppRouter, AppView) {
   $(function() {
-    var app_view = new AppView; 
-    // Make sure everything is loaded before setting up the router
-    vent.listenTo(vent, 'products:loaded', function() {
+    var products_collection = new ProductsCollection;
+    products_collection.listenTo(products_collection, 'reset', function() {
+      var app_view = new AppView({
+        products_collection: products_collection
+      });
       new AppRouter({ app_view: app_view });
       Backbone.history.start({
         pushState: true,
@@ -37,10 +39,11 @@ define([
         silent: false 
       });
     });
+    products_collection.reset(products);
   });
 });
 
 require.onError = function(err) {
-  console.log('require.onError: ' + err);
+  console.log(err.stack);
 };
 

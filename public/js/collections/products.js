@@ -3,8 +3,8 @@ define([
   'collections/base',
   'models/product',
   'lunr',
-  'modules/vent'
-], function(BaseCollection, ProductModel, lunr, vent) {
+  'products'
+], function(BaseCollection, ProductModel, lunr, products) {
   return BaseCollection.extend({
     url: '/products',
     model: ProductModel,
@@ -20,15 +20,6 @@ define([
     sort_attr: 'description',
     sort_dir: 1,
     initialize: function() {
-      this.listenTo(this, 'reset', function() {
-        this.populateIndex();
-        vent.trigger('products:loaded');
-      }, this);
-      this.listenTo(this.filtered, 'change', function(model, opts) {
-        // Update the original collection with new attributes
-        this.add(model, { merge: true });
-        this.filtered.sort();
-      });
       // Configure filtered collection
       _.extend(this.filtered, {
         model:      this.model,
@@ -36,6 +27,15 @@ define([
         sort_dir:   this.sort_dir,
         comparator: this.comparator
       });
+      this.listenTo(this.filtered, 'change', function(model, opts) {
+        // Update the original collection with new attributes
+        this.add(model, { merge: true });
+        this.filtered.sort();
+      });
+      this.listenTo(this, 'reset', function() {
+        this.filtered.reset(this.models);
+        this.populateIndex();
+      }, this);
     },
     populateIndex: function() {
       _.each(this.models, _.bind(function(product) {

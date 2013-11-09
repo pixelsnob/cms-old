@@ -10,6 +10,10 @@ define([
       this.listenTo(vent, 'message', function(msg) {
         this.render(msg);
       });
+      this.listenTo(vent, 'message:error', function(msg) {
+        // custom style?
+        this.render(msg);
+      });
     },
     render: function(msg) {
       this.$el.html(msg).show();

@@ -15,9 +15,10 @@ define([
       'keyup input[name=search]':     'autocomplete',
       'submit form':                  'showProductsByPhrase'
     },
-    initialize: function() {
+    initialize: function(opts) {
       this.products_view = new ProductsView({
-        el: this.$el.find('#products')
+        el:         this.$el.find('#products'),
+        collection: opts.products_collection
       });
       this.message_view = new MessageView({
         el: this.$el.find('.flash_message')

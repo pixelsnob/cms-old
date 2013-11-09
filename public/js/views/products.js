@@ -11,14 +11,12 @@ define([
 ],
 function(Backbone, ProductsCollection, EditableProductView, jade) {
   return Backbone.View.extend({
-    collection: new ProductsCollection,
     events: {
       'click .sort_products':    'toggleSort'
     },
     initialize: function(opts) {
       this.setElement(this.el);
       this.listenTo(this.collection.filtered, 'reset sort', this.render);
-      this.collection.fetch({ reset: true });
     },
     showAllProducts: function() {
       this.collection.all();

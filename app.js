@@ -45,7 +45,7 @@ app.configure(function() {
 
 app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
-  app.settings.force_js_optimize = true;
+  //app.settings.force_js_optimize = true;
 });
 
 // Create lunr index
@@ -73,6 +73,14 @@ db.connection.once('connected', function() {
       app.locals.paths = categories.map(function(n) { return n.path; });
     }
   );
+  ProductModel.find({}, function(err, products) {
+    if (err) {
+      console.log(err);
+      process.exit(1);
+    }
+    app.locals.all_products = products;
+  });
+
 });
 db.connection.on('error', function(err) {
   console.error('mongo error: ' + err);
