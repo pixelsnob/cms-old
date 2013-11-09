@@ -2,9 +2,8 @@
 define([
   'collections/base',
   'models/product',
-  'lunr',
-  'products'
-], function(BaseCollection, ProductModel, lunr, products) {
+  'lunr'
+], function(BaseCollection, ProductModel, lunr) {
   return BaseCollection.extend({
     url: '/products',
     model: ProductModel,

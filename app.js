@@ -24,7 +24,7 @@ var
 app.configure(function() {
   app.set('view engine', 'jade');
   app.set('views', __dirname + '/views');
-  app.set('view cache', true);
+  //app.set('view cache', true);
   app.locals.pretty = true;
   app.use(express.urlencoded()); 
   app.use(express.json());

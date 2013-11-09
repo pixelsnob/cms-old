@@ -20,12 +20,12 @@ require.config({
 
 define([
   'backbone',
-  'products',
   'collections/products',
   'routers/router',
   'views/app',
-  'modules/csrf'
-], function(Backbone, products, ProductsCollection, AppRouter, AppView) {
+  'modules/csrf',
+  'modules/view_mixin'
+], function(Backbone, ProductsCollection, AppRouter, AppView) {
   $(function() {
     var products_collection = new ProductsCollection;
     products_collection.listenTo(products_collection, 'reset', function() {
@@ -39,7 +39,7 @@ define([
         silent: false 
       });
     });
-    products_collection.reset(products);
+    products_collection.fetch({ reset: true });
   });
 });
 

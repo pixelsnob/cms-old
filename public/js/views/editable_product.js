@@ -4,7 +4,6 @@ define([
   'views/mixins/editable'
 ], function(ProductView, EditableView) {
   // Mixin editable props and events
-  _.defaults(ProductView.prototype, EditableView);
-  _.defaults(ProductView.prototype.events, EditableView.events);
+  Backbone.View.mixin(ProductView, EditableView);
   return ProductView;
 });
