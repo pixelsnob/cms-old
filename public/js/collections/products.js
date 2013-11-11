@@ -29,6 +29,8 @@ define([
       this.listenTo(this.filtered, 'change', function(model, opts) {
         // Update the original collection with new attributes
         this.add(model, { merge: true });
+        // Re-index
+        this.populateIndex();
         this.filtered.sort();
       });
       this.listenTo(this, 'reset', function() {

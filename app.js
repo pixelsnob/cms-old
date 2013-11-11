@@ -19,6 +19,7 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   ProductModel    = require('./models/product.js'),
+  PageModel       = require('./models/page.js'),
   jade_browser    = require('jade-browser');
 
 app.configure(function() {
@@ -59,28 +60,6 @@ var lunr_index = lunr(function () {
 
 db.connection.once('connected', function() {
   console.log('mongo connected');
-  // Get product categories for nav
-  ProductModel.aggregate(
-    { $group: { _id: '$path', category: { $first: '$category' } } }, 
-    { $project: { _id: 0, category: 1, path: '$_id' } },
-    { $sort: { category: 1 } },
-    function(err, categories) {
-      if (err) {
-        console.log(err);
-        process.exit(1);
-      }
-      app.locals.nav = categories;
-      app.locals.paths = categories.map(function(n) { return n.path; });
-    }
-  );
-  ProductModel.find({}, function(err, products) {
-    if (err) {
-      console.log(err);
-      process.exit(1);
-    }
-    app.locals.all_products = products;
-  });
-
 });
 db.connection.on('error', function(err) {
   console.error('mongo error: ' + err);
@@ -93,8 +72,32 @@ db.connection.on('reconnected', function() {
 });
 
 app.use(function(req, res, next) {
+  // Default search input value
   app.locals.search = req.body.search || '';
   next();
+});
+
+// Load up data -- this is a bad idea!
+app.use(function(req, res, next) {
+  // Get product categories for nav
+  ProductModel.getCategories(function(err, categories) {
+    if (err) {
+      next(err);
+    }
+    app.locals.nav = categories;
+    app.locals.paths = categories.map(function(obj) { return obj.path; });
+    next();
+  });
+});
+
+app.use(function(req, res, next) {
+  ProductModel.find({}, function(err, products) {
+    if (err) {
+      next(err);
+    }
+    app.locals.all_products = products;
+    next();
+  });
 });
 
 // Routes
@@ -105,6 +108,21 @@ app.post('/search', routes.search);
 app.post('/products', routes.saveProduct);
 app.put('/products/:id', routes.updateProduct);
 
+// CMS routes
+app.use(function(req, res, next) {
+  var path = req.path.replace(/\/$/, '');
+  PageModel.findOne({ path: path  }, function(err, page) {
+    if (err) {
+      next(err);
+    }
+    if (page) {
+      res.send(path);  
+      return;
+    }
+    next();
+  });
+});
+
 // Error page
 app.use(function(err, req, res, next){
   console.log(err.stack);
@@ -113,4 +131,7 @@ app.use(function(err, req, res, next){
 
 app.listen(3001);
 console.log('Listening on port 3001');
+
+PageModel.create({ path: '/caca/1', title: 'caca', content: [{test:'testing'}] }, function(err) { console.log(err); });
+
 
