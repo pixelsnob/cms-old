@@ -9,8 +9,7 @@ define([
   return {
     busy: false,
     events: {
-      'keydown [contenteditable]': 'editKeydown',
-      'click': function() {}
+      'keydown [contenteditable]': 'editKeydown'
     },
     editKeydown: function(ev) {
       var el = this.$(ev.target),
@@ -30,7 +29,7 @@ define([
           success: _.bind(function() {
             this.busy = false;
             el.blur();
-            dialog.alert('Instrument saved');
+            dialog.alert('Item saved');
           }, this),
           error: _.bind(function(model, xhr, opts) {
             this.busy = false;

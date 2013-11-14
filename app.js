@@ -20,13 +20,15 @@ var
   db              = mongoose.connect(DB_URI, DB_OPTS),
   ProductModel    = require('./models/product.js'),
   PageModel       = require('./models/page.js'),
-  jade_browser    = require('jade-browser');
+  jade_browser    = require('jade-browser'),
+  marked          = require('marked');
 
 app.configure(function() {
   app.set('view engine', 'jade');
   app.set('views', __dirname + '/views');
-  //app.set('view cache', true);
+  app.set('view cache', false);
   app.locals.pretty = true;
+  app.locals.marked = marked;
   app.use(express.urlencoded()); 
   app.use(express.json());
   app.use(express.cookieParser());
@@ -39,7 +41,7 @@ app.configure(function() {
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',
-    [ 'product*' ],
+    [ 'product*', 'cms_page*' ],
     { root: app.get('views'), minify: false, debug: true }
   ));
 });
@@ -104,34 +106,42 @@ app.use(function(req, res, next) {
 app.get('/', routes.home);
 app.get('/products', routes.products);
 app.get('/products/:path', routes.productsByPath);
+
 app.post('/search', routes.search);
 app.post('/products', routes.saveProduct);
 app.put('/products/:id', routes.updateProduct);
 
-// CMS routes
+// CMS dynamic routes
 app.use(function(req, res, next) {
   var path = req.path.replace(/\/$/, '');
-  PageModel.findOne({ path: path  }, function(err, page) {
+  PageModel.findOne({ path: path }, function(err, page) {
     if (err) {
       next(err);
     }
     if (page) {
-      res.send(path);  
-      return;
+      res.render('cms_page', page.content);  
+    } else {
+      next();
     }
-    next();
   });
 });
 
 // Error page
 app.use(function(err, req, res, next){
   console.log(err.stack);
-  res.render('error', { error: err.message });
+  res.format({
+    html: function() {
+      res.render('error', { error: err.message });
+    },
+    json: function() {
+      res.json({ shit: true });
+    }
+  });
 });
 
 app.listen(3001);
 console.log('Listening on port 3001');
 
-PageModel.create({ path: '/caca/1', title: 'caca', content: [{test:'testing'}] }, function(err) { console.log(err); });
+//PageModel.create({ path: '/caca/4', title: 'caca', content: { test: "heading\n--------\ntesting some __sexy__ ass markdown shizz" }}, function(err) { console.log(err); });
 
 

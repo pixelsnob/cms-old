@@ -1,0 +1,9 @@
+
+extends cms_layout
+
+block content
+  div.editable
+    h2 Content area 1
+    p Some content goes here.
+  div.test(contenteditable="true")!= marked(test)
+
