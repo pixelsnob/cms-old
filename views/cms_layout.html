@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <meta name="csrf" content="TPqlPmQJSf+YVJ8ZBW70ZZXxrRgiAr+t+QJXA=" />
+    <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css" />
+    <link rel="stylesheet" href="/bower_components/vex/css/vex.css" />
+    <link rel="stylesheet" href="/bower_components/vex/css/vex-theme-plain.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li class="home"><a href="/">Home</a></li>
+          <!--li.all_products: a(href="/products") All Instruments-->
+        </ul>
+      </nav>
+      <form name="search_form" action="/search" method="post">
+        <input type="text" name="search" value="" placeholder="Product Search..." autocomplete="off" />
+        <input type="submit" value="Search" />
+      </form>
+    </header>
+    <div id="content">
+      <div class="flash_message"></div>
+    </div>
+    <footer></footer>
+    <script type="text/javascript" data-main="/js/main" src="/bower_components/requirejs/require.js"></script>
+  </body>
+</html>

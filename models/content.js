@@ -6,7 +6,7 @@ var PageSchema = mongoose.Schema({
   title: String,
   keywords: String,
   description: String,
-  content: Object 
+  content: Object
 });
 
 module.exports = mongoose.model('Page', PageSchema);
