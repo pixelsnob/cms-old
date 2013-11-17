@@ -19,6 +19,9 @@
     "jade-browser": "0.0.14",
     "amd-wrap": "~1.0.1",
     "underscore": "~1.5.2",
-    "marked": "~0.2.10"
+    "marked": "~0.2.10",
+    "weld": "~0.2.2",
+    "passport": "~0.1.17",
+    "passport-http": "~0.2.2"
   }
 }

@@ -2,8 +2,8 @@
 extends cms_layout
 
 block content
-  div.editable
+  div
     h2 Content area 1
     p Some content goes here.
-  div.test(contenteditable="true")!= marked(content.test)
+  div.test!= renderPageContent('test', content)
 

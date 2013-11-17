@@ -17,10 +17,13 @@ var
   routes          = require('./routes')(app),
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
+  UserModel       = require('./models/user.js'),
   PageModel       = require('./models/page.js'),
   jade_browser    = require('jade-browser'),
-  marked          = require('marked');
-  //jsdom           = require('jsdom');
+  marked          = require('marked'),
+  passport        = require('passport'),
+  passport_http   = require('passport-http'),
+  _               = require('underscore');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -28,6 +31,17 @@ app.configure(function() {
   app.set('view cache', false);
   app.locals.pretty = true;
   app.locals.marked = marked;
+  app.locals._ = _;
+  // View helper
+  app.locals.renderPageContent = function(name, content) {
+    var res = _.findWhere(content, { name: name });
+    if (res) {
+      if (res.filter == 'markdown') {
+        return marked(res.content);
+      }
+    }
+  };
+  app.use(passport.initialize());
   app.use(express.urlencoded()); 
   app.use(express.json());
   app.use(express.cookieParser());
@@ -50,6 +64,21 @@ app.configure('development', function() {
   //app.settings.force_js_optimize = true;
 });
 
+// Auth
+passport.use(new passport_http.DigestStrategy({ qop: 'auth' },
+  function(username, done) {
+    UserModel.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user, user.password);
+    });
+  },
+  function(params, done) {
+    // check nonces in params here, if desired
+    return done(null, true);
+  }
+));
+
 db.connection.once('connected', function() {
   console.log('mongo connected');
 });
@@ -63,36 +92,16 @@ db.connection.on('reconnected', function() {
   console.log('mongo reconnected');
 });
 
-app.use(function(req, res, next) {
-  // Default search input value
-  app.locals.search = req.body.search || '';
-  next();
-});
-
-// Routes
-app.get('/', routes.home);
-
 // CMS dynamic routes
-app.use(function(req, res, next) {
-  var path = req.path.replace(/\/$/, '');
-  PageModel.findOne({ path: path }, function(err, page) {
-    if (err) {
-      next(err);
-    }
-    if (page) {
-      res.format({
-        html: function() {
-          res.render('cms_page', page);  
-        },
-        json: function() {
-          res.json(page);
-        }
-      });
-    } else {
-      next();
-    }
-  });
-});
+app.use(routes.renderCmsPage);
+//app.get('/login', routes.login);
+app.get(
+  '/private',
+  passport.authenticate('digest', { session: false }),
+  function(req, res, next) {
+    res.send('hello');
+  }
+);
 
 // Error page
 app.use(function(err, req, res, next){
@@ -110,14 +119,20 @@ app.use(function(err, req, res, next){
 app.listen(3001);
 console.log('Listening on port 3001');
 
+/*
 PageModel.create({
   path: '/test/11',
   title: 'caca <> "',
   keywords: 'blah',
   description: 'meh',
-  content: { test: "hmm this is alright\n----\n\ntest" }
+  content: [{ name: 'test', content: "hmm this is alright\n----\n\ntest", filter: 'markdown' }]
+  //content: { test: "Wow\n---\n\nhey", another: 'cool' }
 }, function(err) {
   console.log(err);
 });
 
-
+UserModel.create({ username: 'luis', password: '1234', name: 'Luis' },
+function(err) {
+  console.log(err);
+});
+*/
