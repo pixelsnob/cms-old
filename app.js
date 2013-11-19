@@ -22,8 +22,9 @@ var
   jade_browser    = require('jade-browser'),
   marked          = require('marked'),
   passport        = require('passport'),
-  passport_http   = require('passport-http'),
   _               = require('underscore');
+
+require('./auth');
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -41,16 +42,17 @@ app.configure(function() {
       }
     }
   };
-  app.use(passport.initialize());
   app.use(express.urlencoded()); 
   app.use(express.json());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'hotdog' }));
-  app.use(express.csrf());
+  app.use(passport.initialize());
+  app.use(passport.session());
+  /*app.use(express.csrf());
   app.use(function(req, res, next){
     app.settings.csrf = req.csrfToken();
     next();
-  });
+  });*/
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',
@@ -64,20 +66,6 @@ app.configure('development', function() {
   //app.settings.force_js_optimize = true;
 });
 
-// Auth
-passport.use(new passport_http.DigestStrategy({ qop: 'auth' },
-  function(username, done) {
-    UserModel.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      return done(null, user, user.password);
-    });
-  },
-  function(params, done) {
-    // check nonces in params here, if desired
-    return done(null, true);
-  }
-));
 
 db.connection.once('connected', function() {
   console.log('mongo connected');
@@ -92,13 +80,23 @@ db.connection.on('reconnected', function() {
   console.log('mongo reconnected');
 });
 
+app.get('/', function(req, res, next) {
+  console.log(req.isAuthenticated());
+  console.log(req.user);
+  res.send('');
+});
+app.get('/login', routes.loginForm);
+app.post('/login', routes.login);
+
 // CMS dynamic routes
-app.use(routes.renderCmsPage);
+app.get('*', routes.renderCmsPage);
+app.post('*', routes.saveCmsPage);
+
 //app.get('/login', routes.login);
 app.get(
   '/private',
-  passport.authenticate('digest', { session: false }),
   function(req, res, next) {
+    console.log(req.user.name);
     res.send('hello');
   }
 );

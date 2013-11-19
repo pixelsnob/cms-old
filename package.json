@@ -15,13 +15,13 @@
     "async": "~0.2.9",
     "redis": "~0.9.0",
     "lunr": "~0.4.2",
-    "jade-amd": "~0.2.0",
     "jade-browser": "0.0.14",
     "amd-wrap": "~1.0.1",
     "underscore": "~1.5.2",
     "marked": "~0.2.10",
-    "weld": "~0.2.2",
     "passport": "~0.1.17",
-    "passport-http": "~0.2.2"
+    "passport-http": "~0.2.2",
+    "passport-local": "~0.1.6",
+    "bcrypt": "~0.7.7"
   }
 }
