@@ -34,17 +34,12 @@ module.exports = function(app) {
           return next(err);
         }
         if (page) {
-          passport.authenticate('local', function(err, user, info) {
-            console.log(user);
-            if (err) {
-              return next(err);
+            if (req.isAuthenticated()) {
+              // save here
+              //res.json(req.user);
+            } else {
+              res.send(401);
             }
-            if (!user) {
-              return res.send(401);
-            }
-            res.json(user);
-            // save here
-          })(req, res, next);
         } else {
           return next();
         }
@@ -55,12 +50,11 @@ module.exports = function(app) {
     },
     login: function(req, res, next) {
       passport.authenticate('local', function(err, user, info) {
-        console.log(user);
         if (err) {
           return next(err);
         }
         if (!user) {
-          //req.session.messages =  [info.message];
+          req.session.messages =  [ info.message ];
           return res.redirect('/login');
         }
         req.logIn(user, function(err) {
@@ -70,6 +64,10 @@ module.exports = function(app) {
           return res.redirect('/');
         });
       })(req, res, next);
+    },
+    logout: function(req, res, next) {
+      req.logout();
+      res.redirect('/login');
     }
   };
 };

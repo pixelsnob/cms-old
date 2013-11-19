@@ -48,11 +48,11 @@ app.configure(function() {
   app.use(express.session({ secret: 'hotdog' }));
   app.use(passport.initialize());
   app.use(passport.session());
-  /*app.use(express.csrf());
+  app.use(express.csrf());
   app.use(function(req, res, next){
     app.settings.csrf = req.csrfToken();
     next();
-  });*/
+  });
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',
@@ -65,7 +65,6 @@ app.configure('development', function() {
   app.use(express.static(__dirname + '/public'));
   //app.settings.force_js_optimize = true;
 });
-
 
 db.connection.once('connected', function() {
   console.log('mongo connected');
@@ -81,22 +80,21 @@ db.connection.on('reconnected', function() {
 });
 
 app.get('/', function(req, res, next) {
-  console.log(req.isAuthenticated());
-  console.log(req.user);
-  res.send('');
+  res.send(JSON.stringify(req.user));
 });
 app.get('/login', routes.loginForm);
 app.post('/login', routes.login);
+app.get('/logout', routes.logout);
 
 // CMS dynamic routes
 app.get('*', routes.renderCmsPage);
 app.post('*', routes.saveCmsPage);
 
-//app.get('/login', routes.login);
 app.get(
   '/private',
+  auth,
   function(req, res, next) {
-    console.log(req.user.name);
+    //console.log(req.user.name);
     res.send('hello');
   }
 );
@@ -116,6 +114,14 @@ app.use(function(err, req, res, next){
 
 app.listen(3001);
 console.log('Listening on port 3001');
+
+function auth(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
 
 /*
 PageModel.create({
