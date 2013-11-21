@@ -8,7 +8,7 @@ define([
     },
     initialize: function() {
       this.setElement(this.el); 
-      this.model.fetch();
+      //this.model.fetch();
       this.model.save();
     }
   });

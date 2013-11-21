@@ -5,6 +5,7 @@ var jade    = require('jade'),
           //_ = require('underscore');
 
 module.exports = function(app) {
+  
   return {
     renderCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
@@ -15,18 +16,19 @@ module.exports = function(app) {
         if (page) {
           res.format({
             html: function() {
-              //console.log(page.content);
-              return res.render('cms_page', page);  
+              app.settings.page = page;
+              res.render('cms_page', page);  
             },
             json: function() {
-              return res.json(page);
+              res.json(page);
             }
           });
         } else {
-          return next();
+          next();
         }
       });
     },
+    
     saveCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
       PageModel.findOne({ path: path }, function(err, page) {
@@ -36,18 +38,23 @@ module.exports = function(app) {
         if (page) {
             if (req.isAuthenticated()) {
               // save here
-              //res.json(req.user);
+              res.json(req.user);
             } else {
               res.send(401);
             }
         } else {
-          return next();
+          next();
         }
       });
     },
+    
     loginForm: function(req, res, next) {
+      if (req.isAuthenticated()) {
+        return res.redirect('/');
+      }
       res.render('login_form');
     },
+    
     login: function(req, res, next) {
       passport.authenticate('local', function(err, user, info) {
         if (err) {
@@ -61,10 +68,11 @@ module.exports = function(app) {
           if (err) {
             return next(err);
           }
-          return res.redirect('/');
+          res.redirect('/');
         });
       })(req, res, next);
     },
+    
     logout: function(req, res, next) {
       req.logout();
       res.redirect('/login');

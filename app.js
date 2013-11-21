@@ -51,6 +51,7 @@ app.configure(function() {
   app.use(express.csrf());
   app.use(function(req, res, next){
     app.settings.csrf = req.csrfToken();
+    app.settings.user = req.user;
     next();
   });
   // Expose compiled templates to frontend
@@ -79,6 +80,7 @@ db.connection.on('reconnected', function() {
   console.log('mongo reconnected');
 });
 
+// Routes
 app.get('/', function(req, res, next) {
   res.send(JSON.stringify(req.user));
 });
@@ -88,6 +90,7 @@ app.get('/logout', routes.logout);
 
 // CMS dynamic routes
 app.get('*', routes.renderCmsPage);
+app.put('*', routes.saveCmsPage);
 app.post('*', routes.saveCmsPage);
 
 app.get(
