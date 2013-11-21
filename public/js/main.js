@@ -24,20 +24,8 @@ define([
   'modules/csrf'
 ], function(Backbone, AppRouter, AppView) {
   $(function() {
-    //var app_view = new AppView;
-    //new AppRouter({ app_view: app_view });
-    if (window.app.user && window.app.page) {
-      require([
-        'views/cms',
-        'routers/cms'
-      ], function(CmsView, CmsRouter) {
-        _.defaults(AppView.prototype.events, CmsView.prototype.events);
-        var HybridView = AppView.extend(CmsView);
-        var app_view = new HybridView;
-      });
-    } else {
-
-    }
+    var app_view = new AppView;
+    new AppRouter({ app_view: app_view });
     Backbone.history.start({
       pushState: true,
       hashChange: false,

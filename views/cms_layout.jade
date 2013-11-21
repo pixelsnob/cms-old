@@ -22,14 +22,16 @@ html
 
     footer
     
+    //- Data for front end
     script(type="text/javascript").
-      window.app = {};
-      
-    if settings.user
+      window.app_data = {};
+    if settings.user 
       script(type="text/javascript").
-        window.app.user = !{JSON.stringify(settings.user)};
-        window.app.page = !{JSON.stringify(settings.page)};
-
+        window.app_data.user = !{JSON.stringify(settings.user)};
+    if page 
+      script(type="text/javascript").
+        window.app_data.page = !{JSON.stringify(page)};
+    
     if settings.force_js_optimize || settings.env == 'production'
       script(type="text/javascript", src="/js/main-build.js", data-main="/js/main")
     else

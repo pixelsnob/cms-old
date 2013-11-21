@@ -16,8 +16,7 @@ module.exports = function(app) {
         if (page) {
           res.format({
             html: function() {
-              app.settings.page = page;
-              res.render('cms_page', page);  
+              res.render('cms_page', { page: page });  
             },
             json: function() {
               res.json(page);

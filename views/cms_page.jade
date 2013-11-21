@@ -5,6 +5,7 @@ block content
   div
     h2 Content area 1
     p Some content goes here.
-  div.test!= renderPageContent('test', content)
+  
+  !{renderPageContent('test', page.content)}
 
 block footer_script

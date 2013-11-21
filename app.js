@@ -35,10 +35,11 @@ app.configure(function() {
   app.locals._ = _;
   // View helper
   app.locals.renderPageContent = function(name, content) {
+    console.log(content);
     var res = _.findWhere(content, { name: name });
     if (res) {
       if (res.filter == 'markdown') {
-        return marked(res.content);
+        return '<div id="' + res.id + '">' + marked(res.content) + '</div>';
       }
     }
   };
@@ -126,7 +127,6 @@ function auth(req, res, next) {
   }
 }
 
-/*
 PageModel.create({
   path: '/test/11',
   title: 'caca <> "',
@@ -138,6 +138,7 @@ PageModel.create({
   console.log(err);
 });
 
+/*
 UserModel.create({ username: 'luis', password: '1234', name: 'Luis' },
 function(err) {
   console.log(err);

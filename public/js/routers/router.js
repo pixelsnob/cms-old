@@ -9,22 +9,17 @@ define([
 ], function(Backbone, AppView) {
   return Backbone.Router.extend({ 
     routes: {
-      'products/all':    'showAllProducts',
-      'products/:path':  'showProductsByPath',
-      '':                'showHome'
+      
     },
-    initialize: function(opts) {
-      this.app_view = (opts.app_view instanceof Backbone.View ? opts.app_view :
-        new AppView);
-    },
-    showHome: function() {
-      this.app_view.showHome();
-    },
-    showProductsByPath: function(path) {
-      this.app_view.showProductsByPath(path);
-    },
-    showAllProducts: function() {
-      this.app_view.showAllProducts();
+    initialize: function() {
+      // Add CMS functionality if user is logged in
+      if (window.app_data.user && window.app_data.page) {
+        require([ 'routers/cms' ], _.bind(function(CmsRouter) {
+          _.defaults(this, CmsRouter.prototype);
+          _.defaults(this.routes, CmsRouter.prototype.routes);
+          CmsRouter.prototype.initialize.apply(this);
+        }, this));
+      }
     }
   });
 });
