@@ -22,18 +22,17 @@ html
 
     footer
     
-    block footer_script_first
+    script(type="text/javascript").
+      window.app = {};
+      
+    if settings.user
+      script(type="text/javascript").
+        window.app.user = !{JSON.stringify(settings.user)};
+        window.app.page = !{JSON.stringify(settings.page)};
 
     if settings.force_js_optimize || settings.env == 'production'
       script(type="text/javascript", src="/js/main-build.js", data-main="/js/main")
     else
       script(type="text/javascript", data-main="/js/main", src="/bower_components/requirejs/require.js")
 
-    if settings.user
-      script(type="text/javascript").
-        window.user = !{JSON.stringify(settings.user)};
-        window.page = !{JSON.stringify(settings.page)};
-
-    block footer_script_last
-      
 

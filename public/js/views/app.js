@@ -8,7 +8,7 @@ define([
   return Backbone.View.extend({
     el: 'body',
     events: {
-      
+      'click #content': function() { alert('?'); }      
     },
     initialize: function(opts) {
       this.page_view = new PageView({ el: this.$el }); 
