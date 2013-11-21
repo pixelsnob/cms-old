@@ -35,7 +35,6 @@ app.configure(function() {
   app.locals._ = _;
   // View helper
   app.locals.renderPageContent = function(name, content) {
-    console.log(content);
     var res = _.findWhere(content, { name: name });
     if (res) {
       if (res.filter == 'markdown') {
@@ -52,7 +51,7 @@ app.configure(function() {
   app.use(express.csrf());
   app.use(function(req, res, next){
     app.settings.csrf = req.csrfToken();
-    app.settings.user = req.user;
+    app.settings.user = _.omit(req.user, 'password');
     next();
   });
   // Expose compiled templates to frontend
