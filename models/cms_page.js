@@ -1,6 +1,6 @@
 
 var mongoose          = require('mongoose'),
-  content_block_model = require('./content_block.js');
+  content_block_model = require('./cms_content_block.js');
 
 var PageSchema = mongoose.Schema({
   path: { type: String, unique: true },

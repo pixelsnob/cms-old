@@ -13,7 +13,7 @@ define([
     },
     initialize: function() {
       // Add CMS functionality if user is logged in
-      if (window.app_data.user && window.app_data.page) {
+      if (window.app_data.user) {
         require([ 'routers/cms' ], _.bind(function(CmsRouter) {
           _.defaults(this, CmsRouter.prototype);
           _.defaults(this.routes, CmsRouter.prototype.routes);

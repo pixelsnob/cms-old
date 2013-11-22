@@ -9,11 +9,9 @@ define([
     },
     initialize: function() {
       // Add CMS functionality if user is logged in
-      if (window.app_data.user && window.app_data.page) {
+      if (window.app_data.logged_in) {
         require([ 'views/cms' ], _.bind(function(CmsView) {
-          _.defaults(this, CmsView.prototype);
-          _.defaults(this.events, CmsView.prototype.events);
-          CmsView.prototype.initialize.apply(this);
+          this.cms_view = new CmsView({ el: this.$el });
         }, this));
       }
     }

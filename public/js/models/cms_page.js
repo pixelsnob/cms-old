@@ -4,7 +4,7 @@ define([ 'backbone' ], function(Backbone) {
     url: window.location.href,
     idAttribute: '_id',
     initialize: function() {
-
+      
     },
     validate: function(attrs, opts) {
     }

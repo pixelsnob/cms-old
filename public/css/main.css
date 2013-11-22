@@ -19,7 +19,7 @@ nav {
   overflow: hidden;
 }
 
-[contenteditable]:hover:after {
+.editable:hover:after {
   content: ' edit';
   font-style: italic;
   font-size: 12px;
@@ -27,15 +27,15 @@ nav {
   color: #ccc;
 }
   
-[contenteditable]:hover, [contenteditable]:focus {
+.editable:hover, .editable:focus {
   background: #FFFFD3;
 }
 
-[contenteditable]:focus {
+.editable:focus {
   padding: 5px;
 }
 
-[contenteditable]:focus:after {
+.editable:focus:after {
   content: '';
 }
 

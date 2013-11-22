@@ -1,6 +1,6 @@
 
 var jade    = require('jade'),
-  PageModel = require('./models/page'),
+  CmsPageModel = require('./models/cms_page'),
   passport  = require('passport');
           //_ = require('underscore');
 
@@ -9,7 +9,7 @@ module.exports = function(app) {
   return {
     renderCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
-      PageModel.findOne({ path: path }, function(err, page) {
+      CmsPageModel.findOne({ path: path }, function(err, page) {
         if (err) {
           return next(err);
         }
@@ -30,7 +30,7 @@ module.exports = function(app) {
     
     saveCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
-      PageModel.findOne({ path: path }, function(err, page) {
+      CmsPageModel.findOne({ path: path }, function(err, page) {
         if (err) {
           return next(err);
         }
@@ -75,6 +75,16 @@ module.exports = function(app) {
     logout: function(req, res, next) {
       req.logout();
       res.redirect('/login');
+    },
+
+    getUser: function(req, res, next) {
+      if (req.isAuthenticated()) {
+        res.format({
+          json: function() {
+            res.json(req.user);
+          }
+        });
+      }
     }
   };
 };

@@ -18,13 +18,18 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   UserModel       = require('./models/user.js'),
-  PageModel       = require('./models/page.js'),
+  PageModel       = require('./models/cms_page.js'),
   jade_browser    = require('jade-browser'),
   marked          = require('marked'),
   passport        = require('passport'),
   _               = require('underscore');
 
 require('./auth');
+
+app.configure('development', function() {
+  app.use(express.static(__dirname + '/public'));
+  //app.settings.force_js_optimize = true;
+});
 
 app.configure(function() {
   app.set('view engine', 'jade');
@@ -51,7 +56,11 @@ app.configure(function() {
   app.use(express.csrf());
   app.use(function(req, res, next){
     app.settings.csrf = req.csrfToken();
-    app.settings.user = _.omit(req.user, 'password');
+    if (req.isAuthenticated()) {
+      app.settings.user = _.omit(req.user, 'password');
+    } else {
+      delete app.settings.user;
+    }
     next();
   });
   // Expose compiled templates to frontend
@@ -60,11 +69,6 @@ app.configure(function() {
     [ 'cms_page*' ],
     { root: app.get('views'), minify: false, debug: true }
   ));
-});
-
-app.configure('development', function() {
-  app.use(express.static(__dirname + '/public'));
-  //app.settings.force_js_optimize = true;
 });
 
 db.connection.once('connected', function() {
