@@ -17,8 +17,8 @@ var
   routes          = require('./routes')(app),
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
-  UserModel       = require('./models/user.js'),
-  PageModel       = require('./models/cms_page.js'),
+  UserModel       = require('./models/user'),
+  PageModel       = require('./models/page'),
   jade_browser    = require('jade-browser'),
   marked          = require('marked'),
   passport        = require('passport'),
@@ -36,7 +36,7 @@ app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view cache', false);
   app.locals.pretty = true;
-  app.locals.marked = marked;
+  app.locals.markdown = marked;
   app.locals._ = _;
   // View helper
   app.locals.renderPageContent = function(name, content) {
@@ -135,11 +135,18 @@ PageModel.create({
   title: 'caca <> "',
   keywords: 'blah',
   description: 'meh',
-  content: [{ name: 'test', content: "hmm this is alright\n----\n\ntest", filter: 'markdown' }]
-  //content: { test: "Wow\n---\n\nhey", another: 'cool' }
-}, function(err) {
-  console.log(err);
+  content_blocks: [
+    { content: "test!\n----\n\nthis is a test. neat\n\n* a list\n* another list item", type: 'markdown' },
+    { content: "Wow\n=====\n\nOften you might want large blocks of text within a tag. A good example is with inline scripts or styles. To do this, just add a . after the tag (with no preceding space)", type: 'markdown' }
+  ]
+}, function(err, model) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(model);
 });
+
 
 /*
 UserModel.create({ username: 'luis', password: '1234', name: 'Luis' },

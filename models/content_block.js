@@ -2,11 +2,11 @@
 var mongoose = require('mongoose');
 
 var ContentBlockSchema = mongoose.Schema({
-  name: { type: String, unique: true },
+  //name: { type: String, unique: true },
   content: String,
-  filter: String
+  type: String
 }, {
-  collection: 'content_blocks'
+  //collection: 'content_blocks'
 });
 
 module.exports = mongoose.model('ContentBlock', ContentBlockSchema);
