@@ -68,7 +68,7 @@ module.exports = function(app) {
           if (err) {
             return next(err);
           }
-          res.redirect('/');
+          res.redirect('/test/11');
         });
       })(req, res, next);
     },

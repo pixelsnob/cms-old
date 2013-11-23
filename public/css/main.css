@@ -7,32 +7,20 @@ nav {
   /*border: 1px solid blue !important;*/
 }
 
-.products li {
-  float: left;
-  width: 300px;
-  height: 100px;
-  font-size: 0.9em;
-  list-style: none;
-  background: #eee;
-  margin: 2px;
-  padding: 2px;
-  overflow: hidden;
-}
-
 .editable:hover:after {
-  content: ' edit';
+  /*content: ' edit';
   font-style: italic;
   font-size: 12px;
   font-family: sans-serif;
-  color: #ccc;
+  color: #ccc;*/
 }
   
 .editable:hover, .editable:focus {
   background: #FFFFD3;
 }
 
-.editable:focus {
-  padding: 5px;
+.editable:focus pre {
+  font-size: 13px;
 }
 
 .editable:focus:after {

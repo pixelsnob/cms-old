@@ -5,15 +5,15 @@ require.config({
     jquery:       '../bower_components/jquery/jquery',
     underscore:   '../bower_components/underscore-amd/underscore',
     backbone:     '../bower_components/backbone-amd/backbone',
-    jade:         'jade',
     vex:          '../bower_components/vex/js/vex',
     'vex.dialog': '../bower_components/vex/js/vex.dialog',
-    forms:        '../bower_components/backbone-forms/distribution.amd/backbone-forms'
+    forms:        '../bower_components/backbone-forms/distribution.amd/backbone-forms',
+    jade:         'jade'
   },
   shim: {
-    jade:         { exports: 'jade' },
-    'vex.dialog': { deps: [ 'vex' ], exports: 'vex' },
-    'forms': { deps: [ 'backbone' ] }
+    jade:           { exports: 'jade' },
+    'vex.dialog':   { deps: [ 'vex' ], exports: 'vex' },
+    'forms':        { deps: [ 'backbone' ] }
   }
 });
 
