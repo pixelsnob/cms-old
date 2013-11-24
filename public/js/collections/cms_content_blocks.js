@@ -6,9 +6,6 @@ define([
   return Backbone.Collection.extend({
     model: CmsContentBlockModel,
     initialize: function() {
-      this.on('change', function() {
-        console.log(this);
-      });
     }
   });
 });
