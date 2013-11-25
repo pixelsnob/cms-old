@@ -53,9 +53,9 @@ app.configure(function() {
   app.use(express.session({ secret: 'hotdog' }));
   app.use(passport.initialize());
   app.use(passport.session());
-  //app.use(express.csrf());
+  app.use(express.csrf());
   app.use(function(req, res, next){
-    //app.settings.csrf = req.csrfToken();
+    app.settings.csrf = req.csrfToken();
     if (req.isAuthenticated()) {
       app.settings.user = _.omit(req.user, 'password');
     } else {

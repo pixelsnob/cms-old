@@ -5,7 +5,7 @@ define([
 ], function(Backbone, CmsContentBlockModel) {
   return Backbone.Collection.extend({
     model: CmsContentBlockModel,
-    initialize: function() {
+    initialize: function(opts) {
     }
   });
 });

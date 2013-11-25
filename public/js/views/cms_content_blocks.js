@@ -1,24 +1,20 @@
 
 define([
   'backbone',
-  'collections/cms_content_blocks',
+  //'collections/cms_content_blocks',
   'markdown'
-], function(Backbone, CmsContentBlocksCollection, markdown) {
+], function(Backbone, markdown) {
   return Backbone.View.extend({
-    collection: new CmsContentBlocksCollection,
     events: {
-      'click .editable':           'edit',
-      'click .editable textarea':  function(ev) { ev.stopPropagation(); },
-      'blur .editable textarea':   'save',
-      'blur .editable':            'editBlur'
+      'click .editable':            'edit',
+      'click .editable textarea':   function(ev) { ev.stopPropagation(); },
+      'blur  .editable textarea':   'save',
+      'blur  .editable':            'editBlur'
     },
     initialize: function(opts) {
-      this.listenTo(this.collection, 'reset', function() {
-        this.collection.each(_.bind(function(block) {
-          this.$el.find('#' + block.get('_id')).addClass('editable');
-            //.attr('title', 'Click to edit...')
-        }, this));
-      });
+      this.collection.each(_.bind(function(block) {
+        this.$el.find('#' + block.get('_id')).addClass('editable');
+      }, this));
     },
     // Make editable
     edit: function(ev) {
