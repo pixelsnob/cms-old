@@ -13,10 +13,15 @@ html
         ul
           li.home
             a(href="/") Home
-          li.login
-            a(href="/login") Login
-          li.logout
-            a(href="/logout") Logout
+          if settings.user
+            li.logout
+              a(href="/logout") Logout
+            li.save
+              a(href="#") Save
+          else
+            li.login
+              a(href="/login") Login
+            
     div#content
       block content
 

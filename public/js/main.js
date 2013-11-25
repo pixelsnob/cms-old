@@ -8,7 +8,8 @@ require.config({
     vex:          '../bower_components/vex/js/vex',
     'vex.dialog': '../bower_components/vex/js/vex.dialog',
     forms:        '../bower_components/backbone-forms/distribution.amd/backbone-forms',
-    jade:         'jade'
+    jade:         'jade',
+    markdown:     '../bower_components/marked/lib/marked'
   },
   shim: {
     jade:           { exports: 'jade' },

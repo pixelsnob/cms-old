@@ -15,16 +15,21 @@ nav {
   color: #ccc;*/
 }
   
-.editable:hover, .editable:focus {
+.editable:hover, .editable:focus, .editable textarea {
   background: #FFFFD3;
 }
 
-.editable:focus pre {
+.editable:focus textarea {
   font-size: 13px;
 }
 
 .editable:focus:after {
-  content: '';
+  /*content: '';*/
+}
+
+.editable textarea {
+  width: 99%;
+  height: 200px;
 }
 
 .flash_message {

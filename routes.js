@@ -30,20 +30,19 @@ module.exports = function(app) {
     },
     
     saveCmsPage: function(req, res, next) {
-      var path = req.path.replace(/\/$/, '');
-      PageModel.findOne({ path: path }, function(err, page) {
+      if (!req.isAuthenticated()) {
+        return res.send(403);
+      }
+      var id = req.body._id;
+      delete req.body._id;
+      PageModel.findByIdAndUpdate(id, req.body, function(err, page) {
         if (err) {
           return next(err);
         }
         if (page) {
-          if (req.isAuthenticated()) {
-            // save here
-            res.json(req.user);
-          } else {
-            res.send(401);
-          }
+          res.json(page);
         } else {
-          next();
+          next(new Error('Page not found'));
         }
       });
     },
