@@ -1,4 +1,7 @@
-
+/**
+ * App-level view
+ * 
+ */
 define([
   'backbone'
 ], function(Backbone) {
@@ -10,7 +13,7 @@ define([
     initialize: function() {
       // Add CMS functionality if user is logged in
       if (window.app_data.logged_in) {
-        require([ 'views/page' ], _.bind(function(PageView) {
+        require([ 'views/cms/page' ], _.bind(function(PageView) {
           this.page_view = new PageView({ el: this.$el });
         }, this));
       }

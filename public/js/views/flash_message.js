@@ -1,4 +1,7 @@
-
+/**
+ * Flash message view
+ * 
+ */
 define([
   'backbone',
   'modules/vent'

@@ -1,13 +1,17 @@
-
+/**
+ * Page view
+ * 
+ */
 define([
   'backbone',
-  'models/page',
-  'views/content_blocks'
+  'models/cms/page',
+  'views/cms/content_blocks'
 ], function(Backbone, PageModel, ContentBlocksView) {
   return Backbone.View.extend({
     model: new PageModel,
     events: {
-      'click .save': 'save'
+      'click .save': 'save',
+      'click .revert': 'revert'
     },
     initialize: function() {
       this.model.fetch({
@@ -24,12 +28,19 @@ define([
     },
     showSave: function() {
       this.$el.find('.save').show();
+      this.$el.find('.revert').show();
     },
     hideSave: function() {
       this.$el.find('.save').hide();
+      this.$el.find('.revert').hide();
     },
     save: function(ev) {
       this.model.save();
+      return false;
+    },
+    revert: function() {
+      this.hideSave();
+      this.model.fetch();
       return false;
     }
   });

@@ -1,4 +1,7 @@
-
+/**
+ * Content block model
+ * 
+ */
 define([
   'backbone'
 ], function(Backbone) {

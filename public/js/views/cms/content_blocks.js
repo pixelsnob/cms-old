@@ -1,9 +1,12 @@
-
+/**
+ * Content blocks view
+ * 
+ */
 define([
   'backbone',
   'markdown',
-  'views/content_block',
-  'views/editable_content_block'
+  'views/cms/content_block',
+  'views/cms/editable_content_block'
 ], function(Backbone, markdown, ContentBlockView, EditableContentBlockView) {
   return Backbone.View.extend({
     events: {

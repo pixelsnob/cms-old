@@ -1,4 +1,7 @@
-
+/**
+ * Content block view
+ * 
+ */
 define([
   'backbone',
   'markdown'

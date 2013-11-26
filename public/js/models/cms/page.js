@@ -1,7 +1,10 @@
-
+/**
+ * CMS page model
+ * 
+ */
 define([
   'backbone',
-  'collections/content_blocks'
+  'collections/cms/content_blocks'
 ], function(Backbone, ContentBlockCollection) {
   return Backbone.Model.extend({
     url: window.location.href,

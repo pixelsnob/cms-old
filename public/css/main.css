@@ -7,7 +7,7 @@ nav {
   /*border: 1px solid blue !important;*/
 }
 
-nav .save {
+nav .save, nav .revert {
   display: none;
 }
 

@@ -1,4 +1,7 @@
-
+/**
+ * Content block editor view
+ * 
+ */
 define([
   'backbone'
 ], function(Backbone, markdown) {

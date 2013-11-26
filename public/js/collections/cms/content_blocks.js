@@ -1,7 +1,10 @@
-
+/**
+ * Content blocks collection
+ * 
+ */
 define([
   'backbone',
-  'models/content_block'
+  'models/cms/content_block'
 ], function(Backbone, ContentBlockModel) {
   return Backbone.Collection.extend({
     model: ContentBlockModel,
