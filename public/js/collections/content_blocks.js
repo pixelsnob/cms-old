@@ -1,10 +1,10 @@
 
 define([
   'backbone',
-  'models/cms_content_block'
-], function(Backbone, CmsContentBlockModel) {
+  'models/content_block'
+], function(Backbone, ContentBlockModel) {
   return Backbone.Collection.extend({
-    model: CmsContentBlockModel,
+    model: ContentBlockModel,
     initialize: function(opts) {
     }
   });

@@ -1,11 +1,11 @@
 
 define([
   'backbone',
-  'models/cms_page',
-  'views/cms_content_blocks'
-], function(Backbone, CmsPageModel, CmsContentBlocksView) {
+  'models/page',
+  'views/content_blocks'
+], function(Backbone, PageModel, ContentBlocksView) {
   return Backbone.View.extend({
-    model: new CmsPageModel,
+    model: new PageModel,
     events: {
       'click .save': 'save'
     },
@@ -13,7 +13,7 @@ define([
       this.model.fetch({
         success: _.bind(function(model) {
           // Init only after we have data
-          this.content_blocks_view = new CmsContentBlocksView({
+          this.content_blocks_view = new ContentBlocksView({
             el: this.$el,
             collection: model.content_blocks
           });

@@ -1,12 +1,12 @@
 
 define([
   'backbone',
-  'collections/cms_content_blocks'
-], function(Backbone, CmsContentBlockCollection) {
+  'collections/content_blocks'
+], function(Backbone, ContentBlockCollection) {
   return Backbone.Model.extend({
     url: window.location.href,
     idAttribute: '_id',
-    content_blocks: new CmsContentBlockCollection,
+    content_blocks: new ContentBlockCollection,
     initialize: function() {
       // Populate content_blocks on load
       this.listenToOnce(this, 'change', _.bind(function(model) {

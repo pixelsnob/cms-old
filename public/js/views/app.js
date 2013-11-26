@@ -10,8 +10,8 @@ define([
     initialize: function() {
       // Add CMS functionality if user is logged in
       if (window.app_data.logged_in) {
-        require([ 'views/cms_page' ], _.bind(function(CmsPageView) {
-          this.cms_page_view = new CmsPageView({ el: this.$el });
+        require([ 'views/page' ], _.bind(function(PageView) {
+          this.page_view = new PageView({ el: this.$el });
         }, this));
       }
     }
