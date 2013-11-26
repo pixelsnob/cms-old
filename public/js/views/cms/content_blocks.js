@@ -4,43 +4,17 @@
  */
 define([
   'backbone',
-  'markdown',
-  'views/cms/content_block',
-  'views/cms/editable_content_block'
-], function(Backbone, markdown, ContentBlockView, EditableContentBlockView) {
+  'views/cms/content_block'
+], function(Backbone, ContentBlockView) {
   return Backbone.View.extend({
     events: {
-      'click .editable':            'edit',
-      'click .editable textarea':   function(ev) { ev.stopPropagation(); },
-      'blur  .editable textarea':   'save',
-      'blur  .editable':            'editBlur'
     },
+    views: [],
     initialize: function(opts) {
-      this.collection.each(_.bind(function(block) {
-        this.$el.find('#' + block.get('_id')).addClass('editable');
+      this.collection.each(_.bind(function(model) {
+        var el = this.$el.find('#' + model.get('_id'));
+        this.views.push(new ContentBlockView({ el: el, model: model }));
       }, this));
-    },
-    // Make editable
-    edit: function(ev) {
-      var el    = this.$(ev.currentTarget),
-          model = this.collection.get(el.attr('id'));
-      if (typeof model == 'undefined') {
-        // show error
-        return false;
-      }
-      var editor = new EditableContentBlockView({ el: el, model: model });
-      editor.render();
-    },
-    // Save or restore
-    save: function(ev) {
-      var el     = this.$(ev.currentTarget).parent(),
-          model  = this.collection.get(el.attr('id'));
-      if (typeof model == 'undefined') {
-        // show error
-        return false;
-      }
-      var block = new ContentBlockView({ el: el, model: model });
-      block.render();
     }
   });
 });

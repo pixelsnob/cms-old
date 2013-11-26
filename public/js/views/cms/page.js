@@ -39,7 +39,7 @@ define([
       return false;
     },
     revert: function() {
-      this.hideSave();
+      this.hideSave(); // <<<<<<<<<<<<<<<<<<<<
       this.model.fetch();
       return false;
     }
