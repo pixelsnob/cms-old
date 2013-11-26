@@ -7,6 +7,10 @@ nav {
   /*border: 1px solid blue !important;*/
 }
 
+nav .save {
+  display: none;
+}
+
 .editable:hover:after {
   /*content: ' edit';
   font-style: italic;
@@ -29,12 +33,10 @@ nav {
 
 .editable textarea {
   width: 99%;
-  height: 200px;
+  height: 500px;
 }
 
 .flash_message {
   height: 25px;
 }
-
-
 
