@@ -15,6 +15,11 @@ define([
         var el = this.$el.find('#' + model.get('_id'));
         this.views.push(new ContentBlockView({ el: el, model: model }));
       }, this));
+    },
+    revert: function() {
+      _.each(this.views, _.bind(function(view) {
+        //view.render();
+      }, this));
     }
   });
 });

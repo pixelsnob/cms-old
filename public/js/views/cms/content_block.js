@@ -10,11 +10,14 @@ define([
     events: {
       'click':            'edit',
       'click textarea':   function(ev) { ev.stopPropagation(); },
-      'blur textarea':    'render'
+      'blur textarea':    'save'
     },
     initialize: function() {
       this.setElement(this.el);
       this.$el.addClass('editable');
+      this.listenTo(this.model, 'change', function(model) {
+        this.render();
+      });
     },
     edit: function() {
       var editor = $('<textarea>').val(this.model.get('content'));
@@ -22,9 +25,16 @@ define([
       this.$el.append(editor);
       editor.focus();
     },
-    render: function() {
+    save: function() {
       var content = this.$el.find('textarea').val();
-      this.model.set('content', content);
+      if (content === this.model.get('content')) {
+        this.render();
+      } else {
+        this.model.set('content', content);
+      }
+    },
+    render: function() {
+      var content = this.model.get('content');
       if (this.model.get('type') == 'markdown') {
         content = markdown(content);
       }

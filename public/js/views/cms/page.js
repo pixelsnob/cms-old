@@ -10,13 +10,15 @@ define([
   return Backbone.View.extend({
     model: new PageModel,
     events: {
-      'click .save': 'save',
-      'click .revert': 'revert'
+      'click .save a': 'save',
+      'click .revert a': 'revert'
     },
     initialize: function() {
       this.model.fetch({
         success: _.bind(function(model) {
           // Init only after we have data
+          //console.log(model.content_blocks);
+          model.content_blocks.reset(model.get('content_blocks'));
           this.content_blocks_view = new ContentBlocksView({
             el: this.$el,
             collection: model.content_blocks
@@ -27,19 +29,22 @@ define([
       });
     },
     showSave: function() {
+      console.log('page model change');
+      return
       this.$el.find('.save').show();
       this.$el.find('.revert').show();
     },
     hideSave: function() {
+      console.log('page model sync');
+      return;
       this.$el.find('.save').hide();
       this.$el.find('.revert').hide();
     },
     save: function(ev) {
-      this.model.save();
+      this.model.save({ wait: true });
       return false;
     },
     revert: function() {
-      this.hideSave(); // <<<<<<<<<<<<<<<<<<<<
       this.model.fetch();
       return false;
     }
