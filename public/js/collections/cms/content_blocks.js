@@ -9,6 +9,7 @@ define([
   return Backbone.Collection.extend({
     model: ContentBlockModel,
     initialize: function(opts) {
+      //console.log(this.models);
     }
   });
 });

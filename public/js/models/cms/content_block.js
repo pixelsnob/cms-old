@@ -8,7 +8,7 @@ define([
   return Backbone.Model.extend({
     idAttribute: '_id',
     initialize: function() {
-      
+            
     }
   });
 });

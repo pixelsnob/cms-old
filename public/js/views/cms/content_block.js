@@ -16,6 +16,7 @@ define([
       this.setElement(this.el);
       this.$el.addClass('editable');
       this.listenTo(this.model, 'change', function(model) {
+        //console.log('content block view model change');
         this.render();
       });
     },
@@ -27,11 +28,8 @@ define([
     },
     save: function() {
       var content = this.$el.find('textarea').val();
-      if (content === this.model.get('content')) {
-        this.render();
-      } else {
-        this.model.set('content', content);
-      }
+      this.model.set('content', content);
+      this.render();
     },
     render: function() {
       var content = this.model.get('content');
