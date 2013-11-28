@@ -1,12 +1,11 @@
 
-var mongoose = require('mongoose');
+var mongoose   = require('mongoose'),
+    types      = [ 'markdown' ];
 
 var ContentBlockSchema = mongoose.Schema({
   //name: { type: String, unique: true },
-  content: String,
-  type: String
-}, {
-  //collection: 'content_blocks'
+  content: { type: String, required: true },
+  type: { type: String, required: true, enum: types }
 });
 
 module.exports = mongoose.model('ContentBlock', ContentBlockSchema);

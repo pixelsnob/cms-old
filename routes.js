@@ -1,8 +1,8 @@
 
 var jade        = require('jade'),
   PageModel     = require('./models/page'),
-  passport      = require('passport');
-          //_ = require('underscore');
+  passport      = require('passport'),
+  _             = require('underscore');
 
 module.exports = function(app) {
   
@@ -31,16 +31,23 @@ module.exports = function(app) {
     
     saveCmsPage: function(req, res, next) {
       if (!req.isAuthenticated()) {
-        return res.send(403);
+        res.status(403);
+        next(new Error('Failed auth'));
       }
       var id = req.body._id;
-      delete req.body._id;
-      PageModel.findByIdAndUpdate(id, req.body, function(err, page) {
+      PageModel.findOne(id, function(err, page) {
         if (err) {
           return next(err);
         }
         if (page) {
-          res.json(page);
+          _.extend(page, req.body);
+          page.save(function(err, _page) {
+            if (err) {
+              res.status(500);
+              return next(err);
+            }
+            res.json(_page);
+          });
         } else {
           next(new Error('Page not found'));
         }

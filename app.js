@@ -17,8 +17,6 @@ var
   routes          = require('./routes')(app),
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
-  UserModel       = require('./models/user'),
-  PageModel       = require('./models/page'),
   jade_browser    = require('jade-browser'),
   marked          = require('marked'),
   passport        = require('passport'),
@@ -53,9 +51,9 @@ app.configure(function() {
   app.use(express.session({ secret: 'hotdog' }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.csrf());
+  //app.use(express.csrf());
   app.use(function(req, res, next){
-    app.settings.csrf = req.csrfToken();
+    //app.settings.csrf = req.csrfToken();
     if (req.isAuthenticated()) {
       app.settings.user = _.omit(req.user, 'password');
     } else {
@@ -69,7 +67,6 @@ app.configure(function() {
     [ 'cms_page*' ],
     { root: app.get('views'), minify: false, debug: true }
   ));
-  app.settings.force_js_optimize = true;
 });
 
 db.connection.once('connected', function() {
@@ -115,7 +112,7 @@ app.use(function(err, req, res, next){
       res.render('error', { error: err.message });
     },
     json: function() {
-      res.json(err);
+      res.json({ error: err.message });
     }
   });
 });
@@ -131,29 +128,3 @@ function auth(req, res, next) {
   }
 }
 
-
-
-PageModel.create({
-  path: '/test/11',
-  title: 'caca <> "',
-  keywords: 'blah',
-  description: 'meh',
-  content_blocks: [
-    //{ content: "test!\n----\n\nthis is a test. neat\n\n* a list\n* another list item", type: 'markdown' },
-    { content: "# Top-Level Heading\n\n222222222222\n\nHello there, this is a paragraph. I can't believe this works.\n\n[A link](http://google.com)\n\nThis is a list:\n\n* A list item\n* Another\n* Yet another\n\ntesting\n\nIt's **very** easy to do **bold** and *italics* or\n\nIt's __very__ easy to do __bold__ and _italics_\n\n## A heading\n\nNice, this is rad.\n\n![A caterpillar, actually](/images/user/wormy.jpg \"Neat\")\n\n1. A numbered list\n2. Another item\n3. Cool\n5. ?\n\n## another heading\n\nBlah\n", type: 'markdown' }
-  ]
-}, function(err, model) {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  console.log(model);
-});
-
-
-/*
-UserModel.create({ username: 'luis', password: '1234', name: 'Luis' },
-function(err) {
-  console.log(err);
-});
-*/

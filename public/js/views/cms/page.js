@@ -22,6 +22,7 @@ define([
           });
           this.listenTo(this.model, 'change', this.showSave);
           this.listenTo(this.model, 'sync', this.hideSave);
+          this.listenTo(this.model, 'error', this.error);
         }, this)
       });
     },
@@ -34,12 +35,15 @@ define([
       this.$el.find('.revert').hide();
     },
     save: function(ev) {
-      this.model.save();
+      this.model.save(this.model.attributes, { wait: true });
       return false;
     },
     revert: function() {
       this.model.fetch();
       return false;
+    },
+    error: function(model) {
+      console.log(model);
     }
   });
 });
