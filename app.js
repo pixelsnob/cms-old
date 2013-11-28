@@ -69,6 +69,7 @@ app.configure(function() {
     [ 'cms_page*' ],
     { root: app.get('views'), minify: false, debug: true }
   ));
+  app.settings.force_js_optimize = true;
 });
 
 db.connection.once('connected', function() {
