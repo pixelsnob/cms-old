@@ -32,7 +32,9 @@ html
     
     //- Data for front end
     script(type="text/javascript").
-      window.app_data = {};
+      window.app_data = {
+        env: '#{settings.env}'
+      };
     if settings.user 
       script(type="text/javascript").
         window.app_data.logged_in = true;

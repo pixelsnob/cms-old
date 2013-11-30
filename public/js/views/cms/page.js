@@ -42,8 +42,26 @@ define([
       this.model.fetch();
       return false;
     },
-    error: function(model) {
-      console.log(model);
+    error: function(model, xhr, opts) {
+      if (typeof xhr == 'undefined') {
+        alert('An error has occurred');
+        return;
+      }
+      if (typeof xhr.status != 'undefined') {
+        if (xhr.status == '403') {
+          alert('You must be logged in to do that...');
+          return;
+        }
+      }
+      if (typeof xhr.responseJSON.errors == 'object') {
+        var res = xhr.responseJSON;
+        if (typeof res.message == 'string') {
+          var msg = res.message + ': revert?';
+          if (confirm(msg) === true) {
+            this.revert();
+          }
+        }
+      }
     }
   });
 });

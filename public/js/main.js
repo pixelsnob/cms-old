@@ -35,7 +35,9 @@ define([
   });
 });
 
-require.onError = function(err) {
-  console.log(err.stack);
-};
+if (window.app_data.env != 'production') {
+  require.onError = function(err) {
+    console.log(err.stack);
+  };
+}
 

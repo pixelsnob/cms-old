@@ -112,7 +112,7 @@ app.use(function(err, req, res, next){
       res.render('error', { error: err.message });
     },
     json: function() {
-      res.json({ error: err.message });
+      res.json(err);
     }
   });
 });
