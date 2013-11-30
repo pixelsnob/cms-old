@@ -16,9 +16,9 @@ define([
       this.setElement(this.el);
       this.$el.addClass('editable');
       this.listenTo(this.model, 'change', function(model) {
-        //console.log('content block view model change');
         this.render();
       });
+      this.render();
     },
     edit: function() {
       var editor = $('<textarea>').val(this.model.get('content'));

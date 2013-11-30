@@ -2,14 +2,15 @@
 require.config({
   enforceDefine: true,
   paths: {
-    jquery:       '../bower_components/jquery/jquery',
-    underscore:   '../bower_components/underscore-amd/underscore',
-    backbone:     '../bower_components/backbone-amd/backbone',
-    vex:          '../bower_components/vex/js/vex',
-    'vex.dialog': '../bower_components/vex/js/vex.dialog',
-    forms:        '../bower_components/backbone-forms/distribution.amd/backbone-forms',
-    jade:         'jade',
-    markdown:     '../bower_components/marked/lib/marked'
+    jquery:          bowerPath('jquery/jquery'),
+    underscore:      bowerPath('underscore-amd/underscore'),
+    backbone:        bowerPath('backbone-amd/backbone'),
+    //localstorage:    bowerPath('backbone.localStorage/backbone.localStorage'),
+    vex:             bowerPath('vex/js/vex'),
+    'vex.dialog':    bowerPath('vex/js/vex.dialog'),
+    forms:           bowerPath('backbone-forms/distribution.amd/backbone-forms'),
+    jade:            'jade',
+    markdown:        bowerPath('../bower_components/marked/lib/marked')
   },
   shim: {
     jade:           { exports: 'jade' },
@@ -41,3 +42,6 @@ if (window.app_data.env != 'production') {
   };
 }
 
+function bowerPath(lib) {
+  return '../bower_components/' + lib;
+}
