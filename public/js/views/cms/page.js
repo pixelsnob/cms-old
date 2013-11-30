@@ -44,13 +44,13 @@ define([
     },
     error: function(model, xhr, opts) {
       if (typeof xhr == 'undefined') {
-        alert('An error has occurred');
-        return;
+        return alert('An error has occurred');
       }
       if (typeof xhr.status != 'undefined') {
         if (xhr.status == '403') {
-          alert('You must be logged in to do that...');
-          return;
+          return alert('You must be logged in to do that...');
+        } else if (xhr.status == '404') {
+          return alert('An error has occurred');
         }
       }
       if (typeof xhr.responseJSON.errors == 'object') {
