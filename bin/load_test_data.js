@@ -29,7 +29,7 @@ db.connection.on('open', function() {
     description: 'meh',
     content_blocks: [
       //{ content: "test!\n----\n\nthis is a test. neat\n\n* a list\n* another list item", type: 'markdown' },
-      { content: "# Top-Level Heading\n\n222222222222\n\nHello there, this is a paragraph. I can't believe this works.\n\n[A link](http://google.com)\n\nThis is a list:\n\n* A list item\n* Another\n* Yet another\n\ntesting\n\nIt's **very** easy to do **bold** and *italics* or\n\nIt's __very__ easy to do __bold__ and _italics_\n\n## A heading\n\nNice, this is rad.\n\n![A caterpillar, actually](/images/user/wormy.jpg \"Neat\")\n\n1. A numbered list\n2. Another item\n3. Cool\n5. ?\n\n## another heading\n\nBlah\n", type: 'markdown' }
+      { region: 'main', content: "# Top-Level Heading\n\n222222222222\n\nHello there, this is a paragraph. I can't believe this works.\n\n[A link](http://google.com)\n\nThis is a list:\n\n* A list item\n* Another\n* Yet another\n\ntesting\n\nIt's **very** easy to do **bold** and *italics* or\n\nIt's __very__ easy to do __bold__ and _italics_\n\n## A heading\n\nNice, this is rad.\n\n![A caterpillar, actually](/images/user/wormy.jpg \"Neat\")\n\n1. A numbered list\n2. Another item\n3. Cool\n5. ?\n\n## another heading\n\nBlah\n", type: 'markdown' }
     ]
   }, function(err, model) {
     if (err) {
@@ -40,6 +40,13 @@ db.connection.on('open', function() {
   });
 
   UserModel.create({ username: 'luis', password: '1234', name: 'Luis' },
+  function(err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+  });
+  UserModel.create({ username: 'jones', password: '1234', name: 'Jones' },
   function(err) {
     if (err) {
       console.log(err);

@@ -2,7 +2,7 @@ doctype 5
 html
   head
     title= title
-    meta(name="csrf", content="#{settings.csrf}")
+    meta(name="csrf", content="#{csrf}")
     meta(name="viewport", content="width=device-width")
     link(rel="stylesheet", href="/bower_components/normalize-css/normalize.css")
     link(rel="stylesheet", href="/bower_components/vex/css/vex.css")
@@ -14,11 +14,13 @@ html
         ul
           li.home
             a(href="/") Home
-          if settings.user
+          if user
             li.logout
               a(href="/logout") Logout
             li.save
               a(href="#") Save
+            //- li.save_local
+            //-   a(href="#") Save Locally
             li.revert
               a(href="#") Revert
           else
@@ -35,7 +37,7 @@ html
       window.app_data = {
         env: '#{settings.env}'
       };
-    if settings.user 
+    if user 
       script(type="text/javascript").
         window.app_data.logged_in = true;
     

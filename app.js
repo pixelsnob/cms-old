@@ -18,7 +18,6 @@ var
   mongoose        = require('mongoose'),
   db              = mongoose.connect(DB_URI, DB_OPTS),
   jade_browser    = require('jade-browser'),
-  marked          = require('marked'),
   passport        = require('passport'),
   _               = require('underscore');
 
@@ -34,33 +33,25 @@ app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view cache', false);
   app.locals.pretty = true;
-  app.locals.markdown = marked;
   app.locals._ = _;
-  // View helper
-  app.locals.renderPageContent = function(name, content) {
-    var res = _.findWhere(content, { name: name });
-    if (res) {
-      if (res.filter == 'markdown') {
-        return '<div id="' + res.id + '">' + marked(res.content) + '</div>';
-      }
-    }
-  };
+  _.extend(app.locals, require('./view_helpers')(app));
   app.use(express.urlencoded()); 
   app.use(express.json());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'hotdog' }));
   app.use(passport.initialize());
   app.use(passport.session());
-  //app.use(express.csrf());
+  app.use(express.csrf());
   app.use(function(req, res, next){
-    //app.settings.csrf = req.csrfToken();
+    res.locals.csrf = req.csrfToken();
     if (req.isAuthenticated()) {
-      app.settings.user = _.omit(req.user, 'password');
+      res.locals.user = _.omit(req.user, 'password');
     } else {
-      delete app.settings.user;
+      delete res.locals.user;
     }
     next();
   });
+  app.use(app.router);
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',

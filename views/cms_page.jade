@@ -2,10 +2,4 @@
 extends cms_layout
 
 block content
-  each block in page.content_blocks
-    div(id="#{block._id}")
-      if block.type == 'markdown'
-        !{markdown(block.content)}
-      else
-        block.content
-  
+  !=renderPageContent(page.content_blocks, 'main')
