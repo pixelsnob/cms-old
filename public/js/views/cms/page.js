@@ -5,19 +5,18 @@
 define([
   'backbone',
   'models/cms/page',
-  'views/cms/content_blocks'
-], function(Backbone, PageModel, ContentBlocksView) {
+  'views/cms/content_blocks',
+  'modules/dialog'
+], function(Backbone, PageModel, ContentBlocksView, dialog) {
   return Backbone.View.extend({
     model: new PageModel,
     events: {
-      'click .save a': 'save',
-      'click .save_local a': 'saveLocal',
-      'click .revert a': 'revert'
+      'click .save a':           'save',
+      'click .save_local a':     'saveLocal',
+      'click .revert a':         'revert',
+      'click .edit_meta a':      'editMeta',
     },
     initialize: function() {
-      /*this.listenTo(this.model, 'change', function(model) {
-        console.log(_.isEqual(model.toJSON(), this.model.fetchLocal()));
-      });*/
       this.listenTo(this.model, 'sync', this.hideSave);
       this.listenTo(this.model, 'error', this.error);
       this.model.fetch({
@@ -50,21 +49,32 @@ define([
       this.model.fetch();
       return false;
     },
+    editMeta: function(ev) {
+      dialog.open({
+        content: 'test'
+      });
+      return false;
+    },
     error: function(model, xhr, opts) {
-      if (typeof xhr == 'undefined') {
-        return alert('An error has occurred');
-      }
       if (typeof xhr.responseJSON.errors == 'object') {
         var res = xhr.responseJSON;
-        if (typeof res.message == 'string') {
-          var msg = res.message + ': revert?';
-          if (confirm(msg) === true) {
-            this.revert();
-          }
-        }
+        dialog.confirm({
+          message: res.message + ': revert?',
+          callback: _.bind(function(val) {
+            if (val) {
+              this.revert();
+            }
+          }, this)
+        });
+        return;
       }
       if (xhr.status === 403) {
-        return alert('You must be logged in to do that...');
+        dialog.alert({
+          message: 'You must be logged in to do that...',
+          callback: function() {
+            window.location.href = '/login';
+          }
+        });
       } else {
         return alert('An error has occurred');
       }
