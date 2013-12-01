@@ -43,7 +43,7 @@ app.configure(function() {
   app.use(passport.session());
   //app.use(express.csrf());
   app.use(function(req, res, next){
-    res.locals.csrf = null;//req.csrfToken();
+    res.locals.csrf = null; //req.csrfToken();
     if (req.isAuthenticated()) {
       res.locals.user = _.omit(req.user, 'password');
     } else {
@@ -55,7 +55,7 @@ app.configure(function() {
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',
-    [ 'cms_page*' ],
+    [ 'cms_page*', 'modal*' ],
     { root: app.get('views'), minify: false, debug: true }
   ));
 });

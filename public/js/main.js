@@ -2,20 +2,18 @@
 require.config({
   enforceDefine: true,
   paths: {
-    jquery:          bowerPath('jquery/jquery'),
-    underscore:      bowerPath('underscore-amd/underscore'),
-    backbone:        bowerPath('backbone-amd/backbone'),
-    //localstorage:    bowerPath('backbone.localStorage/backbone.localStorage'),
-    vex:             bowerPath('vex/js/vex'),
-    'vex.dialog':    bowerPath('vex/js/vex.dialog'),
-    forms:           bowerPath('backbone-forms/distribution.amd/backbone-forms'),
+    jquery:          '../bower_components/jquery/jquery',
+    underscore:      '../bower_components/underscore-amd/underscore',
+    backbone:        '../bower_components/backbone-amd/backbone',
+    forms:           '../bower_components/backbone-forms/distribution.amd/backbone-forms',
     jade:            'jade',
-    markdown:        bowerPath('../bower_components/marked/lib/marked')
+    markdown:        '../bower_components/marked/lib/marked',
+    bootstrap:       '../bower_components/bootstrap/dist/js/bootstrap'
   },
   shim: {
     jade:           { exports: 'jade' },
-    'vex.dialog':   { deps: [ 'vex' ], exports: 'vex' },
-    'forms':        { deps: [ 'backbone' ] }
+    forms:          { deps: [ 'backbone' ] },
+    bootstrap:      { deps: [ 'jquery' ], exports: '$' }
   }
 });
 
@@ -42,6 +40,3 @@ if (window.app_data.env != 'production') {
   };
 }
 
-function bowerPath(lib) {
-  return '../bower_components/' + lib;
-}

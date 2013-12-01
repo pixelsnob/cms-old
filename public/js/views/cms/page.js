@@ -6,8 +6,9 @@ define([
   'backbone',
   'models/cms/page',
   'views/cms/content_blocks',
-  'modules/dialog'
-], function(Backbone, PageModel, ContentBlocksView, dialog) {
+  'bootstrap',
+  'jade'
+], function(Backbone, PageModel, ContentBlocksView, bootstrap, jade) {
   return Backbone.View.extend({
     model: new PageModel,
     events: {
@@ -50,33 +51,30 @@ define([
       return false;
     },
     editMeta: function(ev) {
-      dialog.open({
-        content: 'test'
-      });
+      var form = new Backbone.Form({ model: this.model }).render();
+      var tpl = $(jade.render('modal'));
+      tpl.find('.modal-body').append(form.el);
+      tpl.find('.modal-title').text('Edit meta information');
+      $(tpl).modal();
       return false;
     },
     error: function(model, xhr, opts) {
-      if (typeof xhr.responseJSON.errors == 'object') {
-        var res = xhr.responseJSON;
-        dialog.confirm({
-          message: res.message + ': revert?',
-          callback: _.bind(function(val) {
-            if (val) {
-              this.revert();
-            }
-          }, this)
-        });
+      if (typeof xhr.responseJSON != 'object') {
+        alert('An error has occurred');
+        return;
+      }
+      var res = xhr.responseJSON;
+      if (typeof res.message == 'string') {
+        if (confirm(res.message + ': revert?')) {
+          this.revert();
+        }
         return;
       }
       if (xhr.status === 403) {
-        dialog.alert({
-          message: 'You must be logged in to do that...',
-          callback: function() {
-            window.location.href = '/login';
-          }
-        });
+        alert('You must be logged in to do that...');
+        window.location.href = '/login';
       } else {
-        return alert('An error has occurred');
+        alert('An error has occurred');
       }
     }
   });
