@@ -7,8 +7,8 @@ define([
   'models/cms/page',
   'views/cms/content_blocks',
   'bootstrap',
-  'jade'
-], function(Backbone, PageModel, ContentBlocksView, bootstrap, jade) {
+  'views/cms/meta'
+], function(Backbone, PageModel, ContentBlocksView, bootstrap, MetaView) {
   return Backbone.View.extend({
     model: new PageModel,
     events: {
@@ -51,11 +51,8 @@ define([
       return false;
     },
     editMeta: function(ev) {
-      var form = new Backbone.Form({ model: this.model }).render();
-      var tpl = $(jade.render('modal'));
-      tpl.find('.modal-body').append(form.el);
-      tpl.find('.modal-title').text('Edit meta information');
-      $(tpl).modal();
+      var meta_view = new MetaView({ model: this.model });
+      $(meta_view.render()).modal();
       return false;
     },
     error: function(model, xhr, opts) {

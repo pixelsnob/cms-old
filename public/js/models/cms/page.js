@@ -14,7 +14,9 @@ define([
     idAttribute: '_id',
     content_blocks: new ContentBlocksCollection,
     schema: {
-      title: 'Text'
+      title:       { type: 'Text', validators: [ 'required' ] },
+      description: { type: 'Text', validators: [ 'required' ] },
+      keywords:    { type: 'Text', validators: [ 'required' ] }
     },
     initialize: function() {
       this.listenTo(this, 'change:content_blocks', function(model) {
