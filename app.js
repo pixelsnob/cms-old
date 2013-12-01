@@ -51,7 +51,7 @@ app.configure(function() {
     }
     next();
   });
-  app.use(app.router);
+  //app.use(app.router);
   // Expose compiled templates to frontend
   app.use(jade_browser(
     '/js/jade.js',

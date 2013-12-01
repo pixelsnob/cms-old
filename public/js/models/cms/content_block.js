@@ -3,9 +3,9 @@
  * 
  */
 define([
-  'backbone'
-], function(Backbone) {
-  return Backbone.Model.extend({
+  'models/base'
+], function(BaseModel) {
+  return BaseModel.extend({
     idAttribute: '_id',
     initialize: function() {
             

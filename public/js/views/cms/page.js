@@ -15,7 +15,9 @@ define([
       'click .revert a': 'revert'
     },
     initialize: function() {
-      this.listenTo(this.model, 'change', this.saveLocal);
+      /*this.listenTo(this.model, 'change', function(model) {
+        console.log(_.isEqual(model.toJSON(), this.model.fetchLocal()));
+      });*/
       this.listenTo(this.model, 'sync', this.hideSave);
       this.listenTo(this.model, 'error', this.error);
       this.model.fetch({
@@ -52,13 +54,6 @@ define([
       if (typeof xhr == 'undefined') {
         return alert('An error has occurred');
       }
-      if (typeof xhr.status != 'undefined') {
-        if (xhr.status === 403) {
-          return alert('You must be logged in to do that...');
-        } else if (xhr.status === 404) {
-          return alert('An error has occurred');
-        }
-      }
       if (typeof xhr.responseJSON.errors == 'object') {
         var res = xhr.responseJSON;
         if (typeof res.message == 'string') {
@@ -67,6 +62,11 @@ define([
             this.revert();
           }
         }
+      }
+      if (xhr.status === 403) {
+        return alert('You must be logged in to do that...');
+      } else {
+        return alert('An error has occurred');
       }
     }
   });
