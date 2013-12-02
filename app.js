@@ -59,7 +59,7 @@ app.configure(function() {
   //app.use(app.router);
   // Expose compiled templates to frontend
   app.use(jade_browser(
-    '/js/jade.js',
+    '/jade.js',
     [ 'cms_page*', 'modal*' ],
     { root: app.get('views'), minify: false, debug: true }
   ));
