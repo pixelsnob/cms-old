@@ -6,9 +6,8 @@ define([
   'backbone',
   'models/cms/page',
   'views/cms/content_blocks',
-  'bootstrap',
   'views/cms/meta'
-], function(Backbone, PageModel, ContentBlocksView, bootstrap, MetaView) {
+], function(Backbone, PageModel, ContentBlocksView, MetaView) {
   return Backbone.View.extend({
     model: new PageModel,
     events: {
@@ -29,6 +28,7 @@ define([
           this.listenTo(this.model, 'change', this.showSave);
         }, this)
       });
+      this.meta_view = new MetaView({ model: this.model });
     },
     showSave: function() {
       this.$el.find('.save').show();
@@ -42,6 +42,7 @@ define([
       this.model.save(this.model.attributes, { wait: true });
       return false;
     },
+    // Saves to localStorage, might be useful for drafts, versioning...
     saveLocal: function(ev) {
       this.model.saveLocal();
       return false;
@@ -51,8 +52,7 @@ define([
       return false;
     },
     editMeta: function(ev) {
-      var meta_view = new MetaView({ model: this.model });
-      $(meta_view.render()).modal();
+      this.meta_view.modal();
       return false;
     },
     error: function(model, xhr, opts) {

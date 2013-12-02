@@ -33,6 +33,11 @@ app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view cache', false);
   app.locals.pretty = true;
+  app.locals.page = {
+    title: 'CMS Prototype',
+    keywords: 'awesome, nice, far-out',
+    description: 'Yet another CMS'
+  };
   app.locals._ = _;
   _.extend(app.locals, require('./view_helpers')(app));
   app.use(express.urlencoded()); 

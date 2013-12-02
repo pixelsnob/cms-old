@@ -1,24 +1,49 @@
 /**
- * Form for editing meta tag data
+ * Meta form view
  * 
  */
 define([
   'backbone',
-  'bootstrap',
-  'jade'
-], function(Backbone, bootstrap, jade) {
+  'forms/cms/meta',
+  'jade',
+  'modules/events',
+  'bootstrap'
+], function(Backbone, MetaForm, jade, events) {
   return Backbone.View.extend({
     events: {
+      'click .btn-primary':  'save'
     },
-    template: jade.render('modal'),
+    template: this.$(jade.render('modal')),
     initialize: function() {
       this.setElement(this.template);
-      this.form = new Backbone.Form({ model: this.model });
+      this.form = new MetaForm({
+        model: this.model,
+        fields: [ 'title', 'keywords', 'description' ]
+      });
+      this.$el.find('.modal-title').text('Edit meta information');
+      this.$el.find('.modal-body').html(this.form.render().el);
+      // Make sure form stays updated, since we only render it once
+      this.listenTo(this.model, 'change', function(model) {
+        _.each(this.form.fields, _.bind(function(field, name) {
+          var obj = {};
+          obj[name] = this.model.get(name);
+          this.form.setValue(obj);
+        }, this));
+      });
+    },
+    save: function(ev) {
+      var errors = this.form.commit();
+      if (typeof errors == 'undefined') {
+        this.$el.modal('hide');
+      }
+      return false;
     },
     render: function() {
-      this.$el.find('.modal-body').append(this.form.render().el);
-      this.$el.find('.modal-title').text('Edit meta information');
       return this.el;
+    },
+    modal: function() {
+      this.render();
+      this.$el.modal();
     }
   });
 });
