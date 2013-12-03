@@ -6,15 +6,15 @@ define([
   'backbone',
   'models/cms/page',
   'views/cms/content_blocks',
-  'views/cms/meta'
-], function(Backbone, PageModel, ContentBlocksView, MetaView) {
+  'views/cms/options'
+], function(Backbone, PageModel, ContentBlocksView, OptionsView) {
   return Backbone.View.extend({
     model: new PageModel,
     events: {
       'click .save a':           'save',
       'click .save_local a':     'saveLocal',
       'click .revert a':         'revert',
-      'click .edit_meta a':      'editMeta',
+      'click .edit_options a':   'editOptions',
     },
     initialize: function() {
       this.listenTo(this.model, 'sync', this.hideSave);
@@ -28,7 +28,7 @@ define([
           this.listenTo(this.model, 'change', this.showSave);
         }, this)
       });
-      this.meta_view = new MetaView({ model: this.model });
+      this.options_view = new OptionsView({ model: this.model });
     },
     showSave: function() {
       this.$el.find('.save').show();
@@ -42,7 +42,7 @@ define([
       this.model.save(this.model.attributes, { wait: true });
       return false;
     },
-    // Saves to localStorage, might be useful for drafts, versioning...
+    // Saves to localStorage, for drafts, versioning...
     saveLocal: function(ev) {
       this.model.saveLocal();
       return false;
@@ -51,8 +51,8 @@ define([
       this.model.fetch();
       return false;
     },
-    editMeta: function(ev) {
-      this.meta_view.modal();
+    editOptions: function(ev) {
+      this.options_view.modal();
       return false;
     },
     error: function(model, xhr, opts) {
