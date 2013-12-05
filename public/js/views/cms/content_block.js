@@ -14,11 +14,11 @@ define([
     },
     initialize: function() {
       this.setElement(this.el);
+      console.log(this.el);
       this.$el.addClass('editable');
       this.listenTo(this.model, 'change', function(model) {
         this.render();
       });
-      this.render();
     },
     edit: function() {
       var editor = $('<textarea>').val(this.model.get('content'));

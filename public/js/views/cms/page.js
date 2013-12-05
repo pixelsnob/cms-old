@@ -19,14 +19,14 @@ define([
     initialize: function() {
       this.listenTo(this.model, 'sync', this.hideSave);
       this.listenTo(this.model, 'error', this.error);
-      this.model.fetch({
-        success: _.bind(function(model) {
-          this.content_blocks_view = new ContentBlocksView({
-            el: this.$el,
-            collection: model.content_blocks
-          });
-          this.listenTo(this.model, 'change', this.showSave);
-        }, this)
+      this.listenToOnce(this.model, 'change', this.postInit);
+      this.listenTo(this.model, 'change', this.showSave);
+      this.model.fetch();
+    },
+    postInit: function(model) {
+      this.content_blocks_view = new ContentBlocksView({
+        el: this.$el,
+        collection: model.content_blocks
       });
       this.options_view = new OptionsView({ model: this.model });
     },

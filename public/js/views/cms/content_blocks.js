@@ -13,10 +13,12 @@ define([
     views: [],
     collection: ContentBlocksCollection,
     initialize: function(opts) {
-      this.collection.each(_.bind(function(model) {
-        var el = this.$el.find('#' + model.get('_id'));
-        this.views.push(new ContentBlockView({ el: el, model: model }));
-      }, this));
+      this.collection.each(this.add);
+    },
+    add: function(model) {
+      var el = this.$('#' + model.id);
+      var view = new ContentBlockView({ model: model, el: el });
+      view.render();
     }
   });
 });
