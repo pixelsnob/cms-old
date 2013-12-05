@@ -36,7 +36,8 @@ app.configure(function() {
   app.locals.page = {
     title: 'CMS Prototype',
     keywords: 'awesome, nice, far-out',
-    description: 'Yet another CMS'
+    description: 'Yet another CMS',
+    id: ''
   };
   app.locals._ = _;
   _.extend(app.locals, require('./view_helpers')(app));
@@ -47,15 +48,6 @@ app.configure(function() {
   app.use(passport.initialize());
   app.use(passport.session());
   //app.use(express.csrf());
-  app.use(function(req, res, next){
-    res.locals.csrf = null; //req.csrfToken();
-    if (req.isAuthenticated()) {
-      res.locals.user = _.omit(req.user, 'password');
-    } else {
-      delete res.locals.user;
-    }
-    next();
-  });
   //app.use(app.router);
   // Expose compiled templates to frontend
   app.use(jade_browser(
@@ -78,6 +70,16 @@ db.connection.on('reconnected', function() {
   console.log('mongo reconnected');
 });
 
+app.use(function(req, res, next){
+  res.locals.csrf = null; //req.csrfToken();
+  if (req.isAuthenticated()) {
+    res.locals.user = _.omit(req.user, 'password');
+  } else {
+    delete res.locals.user;
+  }
+  next();
+});
+
 // Routes
 app.get('/', function(req, res, next) {
   res.send(JSON.stringify(req.user));
@@ -88,8 +90,9 @@ app.get('/logout', routes.logout);
 
 // CMS dynamic routes
 app.get('*', routes.renderCmsPage);
-app.put('*', routes.saveCmsPage);
-app.post('*', routes.saveCmsPage);
+app.put('/cms/page/:id', routes.saveCmsPage);
+//app.put('*', routes.saveCmsPage);
+//app.post('*', routes.saveCmsPage);
 
 app.get(
   '/private',

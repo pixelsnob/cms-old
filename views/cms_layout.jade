@@ -7,7 +7,7 @@ html
     link(rel="stylesheet", href="/bower_components/normalize-css/normalize.css")
     link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
     link(rel="stylesheet", href="/css/main.css")
-  body
+  body(id="#{page.id}")
     header
       nav
         ul
@@ -39,6 +39,10 @@ html
     if user 
       script(type="text/javascript").
         window.app_data.logged_in = true;
+    
+    if page
+      script(type="text/javascript").
+        window.app_data.page = !{JSON.stringify(page)};
     
     if settings.force_js_optimize || settings.env == 'production'
       script(type="text/javascript", src="/js/main-build.js", data-main="/js/main")

@@ -1,5 +1,5 @@
 
-div(id="#{content_block._id}")
+div.content_block(id="#{content_block._id}")
   if content_block.type == 'markdown'
     !{markdown(content_block.content)}
   else

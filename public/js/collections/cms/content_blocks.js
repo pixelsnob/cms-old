@@ -8,6 +8,7 @@ define([
 ], function(Backbone, ContentBlockModel) {
   return Backbone.Collection.extend({
     model: ContentBlockModel,
+    url: '/cms/content_blocks',
     initialize: function(opts) {
       //console.log(this.models);
     }

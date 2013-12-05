@@ -10,13 +10,23 @@ define([
   return Backbone.View.extend({
     events: {
     },
-    views: [],
+    content_blocks: [],
     collection: ContentBlocksCollection,
     initialize: function(opts) {
-      this.collection.each(_.bind(function(model) {
-        var el = this.$el.find('#' + model.get('_id'));
-        this.views.push(new ContentBlockView({ el: el, model: model }));
-      }, this));
+      if (_.isArray(opts.content_blocks)) {
+        this.collection.fetch({ data: { content_blocks: opts.content_blocks.join(',') }});
+      }
+    },
+    add: function(model) {
+      var view = new ContentBlockView({
+        el: this.$('#' + model.id),
+        model: model
+      });
+      view.render();
+    },
+    render: function() {
+      this.collection.each(this.add);
+      return this.el;
     }
   });
 });

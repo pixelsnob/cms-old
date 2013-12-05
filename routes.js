@@ -1,12 +1,14 @@
 
-var jade        = require('jade'),
-  PageModel     = require('./models/page'),
-  passport      = require('passport'),
-  _             = require('underscore');
+var jade             = require('jade'),
+  ContentBlockModel  = require('./models/content_block'),
+  PageModel          = require('./models/page'),
+  passport           = require('passport'),
+  _                  = require('underscore');
 
 module.exports = function(app) {
   
   return {
+    
     renderCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
       PageModel.findOne({ path: path }, function(err, page) {
@@ -16,8 +18,16 @@ module.exports = function(app) {
         if (page) {
           res.format({
             html: function() {
-              //console.log(page);
-              res.render('cms_page', { page: page });  
+              var query = { _id: { $in: page.content_blocks }};
+              ContentBlockModel.find(query, function(err, content_blocks) {
+                if (err) {
+                  return next(err);
+                }
+                res.render('cms_page', {
+                  page: page,
+                  content_blocks: content_blocks
+                });  
+              });
             },
             json: function() {
               res.json(page);
@@ -26,7 +36,7 @@ module.exports = function(app) {
         } else {
           next();
         }
-      });
+      });//.populate('content_blocks');
     },
     
     saveCmsPage: function(req, res, next) {
@@ -52,6 +62,33 @@ module.exports = function(app) {
           });
         } else {
           next(new Error('Page not found'));
+        }
+      }).populate('content_blocks');
+    },
+
+    saveContentBlock: function(req, res, next) {
+      if (!req.isAuthenticated()) {
+        res.status(403);
+        return next(new Error('You must be logged in to do that...'));
+      }
+      var id = req.body._id;
+      // findOneAndUpdate() does not trigger validation on subdocuments, so
+      // doing it this way...
+      ContentBlockModel.findOne(id, function(err, page) {
+        if (err) {
+          return next(err);
+        }
+        if (content_block) {
+          _.extend(content_block, req.body);
+          content_block.save(function(err, _content_block) {
+            if (err) {
+              res.status(500);
+              return next(err);
+            }
+            res.json(_content_block);
+          });
+        } else {
+          next(new Error('Content block not found'));
         }
       });
     },

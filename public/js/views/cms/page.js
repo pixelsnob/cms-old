@@ -17,17 +17,18 @@ define([
       'click .edit_options a':   'editOptions',
     },
     initialize: function() {
-      this.listenTo(this.model, 'sync', this.hideSave);
       this.listenTo(this.model, 'error', this.error);
-      this.model.fetch({
-        success: _.bind(function(model) {
-          this.content_blocks_view = new ContentBlocksView({
-            el: this.$el,
-            collection: model.content_blocks
-          });
-          this.listenTo(this.model, 'change', this.showSave);
-        }, this)
+      this.listenToOnce(this.model, 'change', function(model) {
+        //console.log(model.content_blocks);
+        this.content_blocks_view = new ContentBlocksView({
+          el: this.$el,
+          content_blocks: model.get('content_blocks')
+        });
+        this.content_blocks_view.render();
       });
+      this.model.set(window.app_data.page);
+      this.listenTo(this.model, 'sync', this.hideSave);
+      this.listenTo(this.model, 'change', this.showSave);
       this.options_view = new OptionsView({ model: this.model });
     },
     showSave: function() {

@@ -18,7 +18,6 @@ define([
       this.listenTo(this.model, 'change', function(model) {
         this.render();
       });
-      this.render();
     },
     edit: function() {
       var editor = $('<textarea>').val(this.model.get('content'));
