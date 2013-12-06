@@ -35,8 +35,6 @@ module.exports = function(app) {
         return next(new Error('You must be logged in to do that...'));
       }
       var id = req.body._id;
-      // findOneAndUpdate() does not trigger validation on subdocuments, so
-      // doing it this way...
       PageModel.findOne(id, function(err, page) {
         if (err) {
           return next(err);

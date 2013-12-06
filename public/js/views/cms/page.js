@@ -17,10 +17,9 @@ define([
       'click .edit_options a':   'editOptions',
     },
     initialize: function() {
-      this.listenTo(this.model, 'sync', this.hideSave);
       this.listenTo(this.model, 'error', this.error);
       this.listenToOnce(this.model, 'change', this.postInit);
-      this.listenTo(this.model, 'change', this.showSave);
+      this.listenTo(this.model, 'change sync', this.toggleSave);
       this.model.fetch();
     },
     postInit: function(model) {
@@ -30,13 +29,14 @@ define([
       });
       this.options_view = new OptionsView({ model: this.model });
     },
-    showSave: function() {
-      this.$el.find('.save').show();
-      this.$el.find('.revert').show();
-    },
-    hideSave: function() {
-      this.$el.find('.save').hide();
-      this.$el.find('.revert').hide();
+    toggleSave: function(model) {
+      if (this.model.hasChanged()) {
+        this.$el.find('.save').show();
+        this.$el.find('.revert').show();
+      } else {
+        this.$el.find('.save').hide();
+        this.$el.find('.revert').hide();
+      }
     },
     save: function(ev) {
       this.model.save(this.model.attributes, { wait: true });
@@ -48,7 +48,7 @@ define([
       return false;
     },
     revert: function() {
-      this.model.fetch();
+      this.model.revert();
       return false;
     },
     editOptions: function(ev) {
