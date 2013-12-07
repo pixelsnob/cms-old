@@ -1,12 +1,15 @@
 
-var jade        = require('jade'),
-  PageModel     = require('./models/page'),
-  passport      = require('passport'),
-  _             = require('underscore');
+var
+  jade                  = require('jade'),
+  PageModel             = require('./models/page'),
+  ContentBlockModel     = require('./models/page'),
+  passport              = require('passport'),
+  _                     = require('underscore');
 
 module.exports = function(app) {
   
   return {
+    
     renderCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
       PageModel.findOne({ path: path }, function(err, page) {
@@ -26,7 +29,7 @@ module.exports = function(app) {
         } else {
           next();
         }
-      });
+      }).populate('content_blocks');
     },
     
     saveCmsPage: function(req, res, next) {
@@ -34,20 +37,13 @@ module.exports = function(app) {
         res.status(403);
         return next(new Error('You must be logged in to do that...'));
       }
-      var id = req.body._id;
-      PageModel.findOne(id, function(err, page) {
+      var body = _.omit(req.body, [ '_id', 'content_blocks' ]);
+      PageModel.findOneAndUpdate(req.body._id, body, function(err, page) {
         if (err) {
           return next(err);
         }
         if (page) {
-          _.extend(page, req.body);
-          page.save(function(err, _page) {
-            if (err) {
-              res.status(500);
-              return next(err);
-            }
-            res.json(_page);
-          });
+          res.json(req.body);
         } else {
           next(new Error('Page not found'));
         }
