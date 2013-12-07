@@ -8,8 +8,8 @@ var _        = require('underscore'),
 
 module.exports = function(app) {
   return {
-    renderPageContent: function(content_blocks, region) {
-      var content_block = _.findWhere(content_blocks, { region: region });
+    renderPageContent: function(content_blocks, name) {
+      var content_block = _.findWhere(content_blocks, { name: name });
       if (content_block) {
         return jade.renderFile(
           'views/cms_content_block.jade',
