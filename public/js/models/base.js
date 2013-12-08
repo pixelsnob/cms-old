@@ -6,6 +6,7 @@ define([
   'backbone'
 ], function(Backbone) {
   return Backbone.Model.extend({
+    idAttribute: '_id',
     storage: window.localStorage,
     saveLocal: function() {
       if (typeof this.storage != 'undefined') {

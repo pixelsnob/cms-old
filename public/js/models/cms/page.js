@@ -9,7 +9,6 @@ define([
 ], function(Backbone, BaseModel, ContentBlocksCollection) {
   return BaseModel.extend({
     url: window.location.pathname,
-    idAttribute: '_id',
     content_blocks: new ContentBlocksCollection,
     saved: {},
     initialize: function() {
