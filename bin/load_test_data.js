@@ -48,7 +48,6 @@ db.connection.on('open', function() {
         if (err) {
           return callback(err);
         }
-        console.log(model);
         callback();
       });
     },
