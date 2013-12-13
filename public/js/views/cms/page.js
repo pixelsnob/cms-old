@@ -69,7 +69,7 @@ define([
       }
       if (xhr.status === 403) {
         alert('You must be logged in to do that...');
-        window.location.href = '/login';
+        //window.location.href = '/login';
       } else {
         alert('An error has occurred');
       }
