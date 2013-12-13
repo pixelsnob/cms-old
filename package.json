@@ -8,13 +8,13 @@
     "import": "node import/import.js"
   },
   "dependencies": {
-    "express": "~3.4.2",
+    "express": "~3.4.7",
     "jade": "*",
     "mongoose": "~3.6.20",
-    "jsdom": "~0.8.6",
+    "jsdom": "~0.8.9",
     "async": "~0.2.9",
-    "redis": "~0.9.0",
-    "lunr": "~0.4.2",
+    "redis": "~0.9.1",
+    "lunr": "~0.4.3",
     "jade-browser": "0.0.14",
     "amd-wrap": "~1.0.1",
     "underscore": "~1.5.2",

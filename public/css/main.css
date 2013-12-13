@@ -31,9 +31,10 @@ nav .save, nav .revert {
   /*content: '';*/
 }
 
-.editable textarea {
+.modal textarea {
   width: 99%;
-  height: 500px;
+  height: 300px;
+  resize: none;
 }
 
 .flash_message {

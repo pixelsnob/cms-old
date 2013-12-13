@@ -12,9 +12,8 @@ define([
       'click .btn-primary':  'save'
     },
     modal_opts: { backdrop: 'static', keyboard: true },
-    template: this.$(jade.render('modal')),
     initialize: function() {
-      this.setElement(this.template);
+      this.setElement(jade.render('modal'));
       // Make sure form stays updated, since we only render it once
       this.listenTo(this.model, 'change', function(model) {
         _.each(this.form.fields, _.bind(function(field, name) {

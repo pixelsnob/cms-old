@@ -4,29 +4,21 @@
  */
 define([
   'backbone',
-  'markdown'
-], function(Backbone, markdown) {
+  'markdown',
+  'views/cms/content_block_form'
+], function(Backbone, markdown, ContentBlockFormView) {
   return Backbone.View.extend({
     events: {
-      'click':            'edit',
-      'click textarea':   function(ev) { ev.stopPropagation(); },
-      'blur textarea':    'save'
+      'click':            'modal'
     },
     initialize: function() {
       this.setElement(this.el);
       this.$el.addClass('editable');
       this.listenTo(this.model, 'change', this.render);
+      this.form_view = new ContentBlockFormView({ model: this.model });
     },
-    edit: function() {
-      var editor = $('<textarea>').val(this.model.get('content'));
-      this.$el.empty();
-      this.$el.append(editor);
-      editor.focus();
-    },
-    save: function() {
-      var content = this.$el.find('textarea').val();
-      this.model.set('content', content);
-      this.render();
+    modal: function() {
+      this.form_view.modal();
     },
     render: function() {
       var content = this.model.get('content');
