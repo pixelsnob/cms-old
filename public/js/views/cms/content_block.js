@@ -15,10 +15,11 @@ define([
       this.setElement(this.el);
       this.$el.addClass('editable');
       this.listenTo(this.model, 'change', this.render);
-      this.form_view = new ContentBlockFormView({ model: this.model });
     },
     modal: function() {
-      this.form_view.modal();
+      var form_view = new ContentBlockFormView({ model: this.model });
+      form_view.render().modal();
+      form_view.modal();
     },
     render: function() {
       var content = this.model.get('content');

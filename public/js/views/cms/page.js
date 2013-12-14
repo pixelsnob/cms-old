@@ -20,6 +20,9 @@ define([
       this.listenTo(this.model, 'error', this.error);
       this.listenToOnce(this.model, 'change', this.postInit);
       this.listenTo(this.model, 'change sync', this.toggleSave);
+      this.listenTo(this.model, 'change', function(model) {
+        console.log(model.attributes);
+      });
       this.model.fetch();
     },
     postInit: function(model) {

@@ -13,7 +13,6 @@ define([
     },
     modal_opts: { backdrop: 'static', keyboard: true },
     initialize: function() {
-      this.setElement(jade.render('modal'));
       // Make sure form stays updated, since it's only rendered once
       this.listenTo(this.model, 'change', function(model) {
         _.each(this.form.fields, _.bind(function(field, name) {

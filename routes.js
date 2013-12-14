@@ -14,24 +14,24 @@ module.exports = function(app) {
     renderCmsPage: function(req, res, next) {
       var path = req.path.replace(/\/$/, '');
       Page.findOne({ path: path }).populate('content_blocks').exec(
-      function(err, page) {
-        if (err) {
-          return next(err);
+        function(err, page) {
+          if (err) {
+            return next(err);
+          }
+          if (page) {
+            res.format({
+              html: function() {
+                res.render('cms_page', { page: page });  
+              },
+              json: function() {
+                res.json(page);
+              }
+            });
+          } else {
+            next();
+          }
         }
-        if (page) {
-          res.format({
-            html: function() {
-              //console.log(page);
-              res.render('cms_page', { page: page });  
-            },
-            json: function() {
-              res.json(page);
-            }
-          });
-        } else {
-          next();
-        }
-      });
+      );
     },
     
     saveCmsPage: function(req, res, next) {
@@ -39,7 +39,6 @@ module.exports = function(app) {
         res.status(403);
         return next(new Error('You must be logged in to do that...'));
       }
-      var body = _.omit(req.body, [ '_id', 'content_blocks' ]);
       async.waterfall([
         function(callback) {
           if (!req.body._id) {
@@ -72,7 +71,7 @@ module.exports = function(app) {
           }
         },
         function(page, callback) {
-          var c = 0;
+          var c = 0, tmp_content_blocks = [];
           req.body.content_blocks.forEach(function(content_block) {
             ContentBlock.findOneAndUpdate(
               content_block._id, 
@@ -81,19 +80,36 @@ module.exports = function(app) {
                 if (err) {
                   return callback(err);
                 }
-                if (++c == page.content_blocks.length) {
-                  page.content_blocks = req.body.content_blocks;
+                tmp_content_blocks.push(_content_block);
+                c++;
+                if (c === page.content_blocks.length) {
+                  page.content_blocks = tmp_content_blocks;
                   callback(null, page);
                 }
               }
             );
           });
-        }
+        }/*,
+        function(callback) {
+          Page.findOne(req.body._id).populate('content_blocks').exec(
+            function(err, page) {
+              if (err) {
+                return callback(err);
+              }
+              if (page) {
+                callback(null, page);
+              } else {
+                callback(new Error('Page not found after update'));
+              }
+            }
+          );
+        }*/
       ], function(err, page) {
         if (err) {
           res.status(500);
           return next(err);
         }
+        console.log(page);
         res.json(page);
       });
     },
