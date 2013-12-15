@@ -88,8 +88,13 @@ app.get('/logout', routes.logout);
 
 // CMS dynamic routes
 app.get('*', routes.renderCmsPage);
-app.put('*', routes.saveCmsPage);
-app.post('*', routes.saveCmsPage);
+app.put(
+  '*',
+  routes.auth,
+  routes.saveCmsPage,
+  routes.saveCmsContentBlocks,
+  routes.renderCmsPage
+);
 
 app.get(
   '/private',
@@ -108,6 +113,7 @@ app.use(function(err, req, res, next){
       res.render('error', { error: err.message });
     },
     json: function() {
+      res.status(500);
       res.json(err);
     }
   });

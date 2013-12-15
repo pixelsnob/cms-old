@@ -5,15 +5,13 @@
 define([
   'backbone',
   'forms/cms/options',
+  'views/modal/form',
   'jade',
   'bootstrap'
-], function(Backbone, OptionsForm, jade) {
-  return Backbone.View.extend({
-    events: {
-      'click .btn-primary':  'save'
-    },
+], function(Backbone, OptionsForm, ModalFormView, jade) {
+  return ModalFormView.extend({
     initialize: function() {
-      this.setElement(jade.render('modal'));
+      ModalFormView.prototype.initialize.apply(this);
     },
     render: function() {
       this.form = new OptionsForm({
@@ -23,16 +21,9 @@ define([
       return this.form.render().el;
     },
     modal: function() {
-      this.$el.modal({ backdrop: 'static', keyboard: true });
+      ModalFormView.prototype.modal.apply(this);
       this.$el.find('.modal-title').text('Page options');
       this.$el.find('.modal-body').html(this.render());
-    },
-    save: function(ev) {
-      var errors = this.form.commit();
-      if (typeof errors == 'undefined') {
-        this.$el.modal('hide');
-      }
-      return false;
     }
   });
 });

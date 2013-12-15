@@ -20,9 +20,6 @@ define([
       this.listenTo(this.model, 'error', this.error);
       this.listenToOnce(this.model, 'change', this.postInit);
       this.listenTo(this.model, 'change sync', this.toggleSave);
-      this.listenTo(this.model, 'change', function(model) {
-        console.log(model.attributes);
-      });
       this.model.fetch();
     },
     postInit: function(model) {
@@ -34,11 +31,11 @@ define([
     },
     toggleSave: function(model) {
       if (this.model.hasChanged()) {
-        this.$el.find('.save').show();
-        this.$el.find('.revert').show();
+        this.$el.find('nav .save').show();
+        this.$el.find('nav .revert').show();
       } else {
-        this.$el.find('.save').hide();
-        this.$el.find('.revert').hide();
+        this.$el.find('nav .save').hide();
+        this.$el.find('nav .revert').hide();
       }
     },
     save: function(ev) {
