@@ -42,6 +42,7 @@ module.exports = function(app) {
         }
         if (page) {
           _.extend(page, _.omit(req.body, 'content_blocks'));
+          // Get rid of all fields except for _id
           var iterator = function(val, key) { return val._id; };
           page.content_blocks = _.map(req.body.content_blocks, iterator);
           page.save(function(err) {
@@ -63,11 +64,14 @@ module.exports = function(app) {
       var c = 0;
       req.body.content_blocks.forEach(function(content_block) {
         ContentBlock.findOneAndUpdate(
-          content_block._id, 
+          { _id: content_block._id },
           _.omit(content_block, '_id'),
-          function(err, content_block) {
+          function(err, _content_block) {
             if (err) {
               return next(err);
+            }
+            if (!_content_block) {
+              return next(new Error('content_block update failed: not found'));
             }
             c++;
             if (c == req.body.content_blocks.length) {
@@ -115,15 +119,6 @@ module.exports = function(app) {
             res.json(req.user);
           }
         });
-      }
-    },
-
-    auth: function(req, res, next) {
-      if (!req.isAuthenticated()) {
-        res.status(403);
-        return next(new Error('You must be logged in to do that...'));
-      } else {
-        next();
       }
     }
   };

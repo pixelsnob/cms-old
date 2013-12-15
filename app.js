@@ -90,7 +90,7 @@ app.get('/logout', routes.logout);
 app.get('*', routes.renderCmsPage);
 app.put(
   '*',
-  routes.auth,
+  auth,
   routes.saveCmsPage,
   routes.saveCmsContentBlocks,
   routes.renderCmsPage
