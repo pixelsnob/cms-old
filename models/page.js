@@ -9,7 +9,6 @@ var PageSchema = Schema({
   keywords: { type: String, required: true },
   description: { type: String, required: true },
   content_blocks: [{ type: Schema.Types.ObjectId, ref: 'ContentBlock' }]
-  //content_blocks: { type: [ ContentBlockModel.schema ], required: true }
 });
 
 module.exports = mongoose.model('Page', PageSchema);

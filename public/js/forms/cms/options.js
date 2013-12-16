@@ -17,7 +17,7 @@ define([
         validators: [ 'required' ]
       },
       description: {
-        type: 'Text',
+        type: 'TextArea',
         validators: [ 'required' ]
       },
       keywords: {

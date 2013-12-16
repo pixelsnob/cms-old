@@ -47,3 +47,12 @@ nav .save, nav .revert {
   height: 25px;
 }
 
+/*
+.modal-header {
+  border-bottom: none;
+}
+*/
+
+.modal-footer {
+  border-top: none;
+}

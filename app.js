@@ -90,19 +90,10 @@ app.get('/logout', routes.logout);
 app.get('*', routes.renderCmsPage);
 app.put(
   '*',
-  auth,
+  routes.auth,
   routes.saveCmsPage,
   routes.saveCmsContentBlocks,
   routes.renderCmsPage
-);
-
-app.get(
-  '/private',
-  auth,
-  function(req, res, next) {
-    //console.log(req.user.name);
-    res.send('hello');
-  }
 );
 
 // Error page
@@ -113,7 +104,6 @@ app.use(function(err, req, res, next){
       res.render('error', { error: err.message });
     },
     json: function() {
-      res.status(500);
       res.json(err);
     }
   });
@@ -121,12 +111,4 @@ app.use(function(err, req, res, next){
 
 app.listen(3001);
 console.log('Listening on port 3001');
-
-function auth(req, res, next) {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
-}
 

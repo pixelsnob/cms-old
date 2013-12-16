@@ -11,10 +11,11 @@ define([
   return Backbone.View.extend({
     model: new PageModel,
     events: {
-      'click .save a':           'save',
-      'click .save_local a':     'saveLocal',
-      'click .revert a':         'revert',
-      'click .edit_options a':   'editOptions',
+      'click .save a':                 'save',
+      'click .save_local a':           'saveLocal',
+      'click .revert_to_draft a':      'revertToDraft',
+      'click .revert a':               'revert',
+      'click .edit_options a':         'editOptions'
     },
     initialize: function() {
       this.listenTo(this.model, 'error', this.error);
@@ -28,18 +29,23 @@ define([
         collection: model.content_blocks
       });
       this.options_view = new OptionsView({ model: this.model });
+      this.listenTo(this.model, 'change', this.saveLocal);
     },
-    toggleSave: function(model) {
+    toggleSave: function() {
+      var els = this.$el.find('nav .save, nav .revert');
       if (this.model.hasChanged()) {
-        this.$el.find('nav .save').show();
-        this.$el.find('nav .revert').show();
+        els.show();
       } else {
-        this.$el.find('nav .save').hide();
-        this.$el.find('nav .revert').hide();
+        els.hide();
       }
     },
     save: function(ev) {
       this.model.save(this.model.attributes, { wait: true });
+      return false;
+    },
+    // Revert to last fetched version
+    revert: function() {
+      this.model.revert();
       return false;
     },
     // Saves to localStorage, for drafts, versioning...
@@ -47,8 +53,9 @@ define([
       this.model.saveLocal();
       return false;
     },
-    revert: function() {
-      this.model.revert();
+    // Revert to a draft
+    revertToDraft: function(ev) {
+      this.model.set(this.model.fetchLocal());
       return false;
     },
     editOptions: function(ev) {

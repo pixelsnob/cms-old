@@ -42,7 +42,6 @@ module.exports = function(app) {
         }
         if (page) {
           _.extend(page, _.omit(req.body, 'content_blocks'));
-          // Get rid of all fields except for _id
           var iterator = function(val, key) { return val._id; };
           page.content_blocks = _.map(req.body.content_blocks, iterator);
           page.save(function(err) {
@@ -119,6 +118,15 @@ module.exports = function(app) {
             res.json(req.user);
           }
         });
+      }
+    },
+
+    auth: function(req, res, next) {
+      if (!req.isAuthenticated()) {
+        res.status(403);
+        return next(new Error('You must be logged in to do that...'));
+      } else {
+        next();
       }
     }
   };
