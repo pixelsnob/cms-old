@@ -22,6 +22,7 @@ db.connection.on('error', function(err) {
 
 db.connection.on('open', function() {
 
+  var ids = [];
   async.waterfall([
     // Add content block(s)
     function(callback) {
@@ -32,18 +33,32 @@ db.connection.on('open', function() {
         if (err) {
           return callback(err);
         }
-        callback(null, model);
+        ids.push(model._id);
+        callback();
+      });
+    },
+    function(callback) {
+      ContentBlock.create({
+        name: 'footer',
+        content: 'footer testxxx',
+        type: 'markdown' 
+      }, function(err, model) {
+        if (err) {
+          return callback(err);
+        }
+        ids.push(model._id);
+        callback();
       });
     },
     // Add a page with refs to content blocks
-    function(model, callback) {
+    function(callback) {
       Page.collection.drop();
       Page.create({
         path: '/test/11',
         title: 'CMS Prototype Test Page',
         keywords: 'blah blah blah',
         description: 'This is a test.',
-        content_blocks: [ model._id ]
+        content_blocks: ids
       }, function(err, model) {
         if (err) {
           return callback(err);

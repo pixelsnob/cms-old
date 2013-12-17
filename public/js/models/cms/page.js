@@ -19,16 +19,7 @@ define([
       this.listenTo(this.content_blocks, 'change', function(model) {
         this.set('content_blocks', this.content_blocks.toJSON()); 
       });
-      // Save a copy fetched from the server for comparisons, etc.
-      this.listenTo(this, 'sync', function(model) {
-        this.saved = _.clone(this.attributes);
-      });
-    },
-    revert: function() {
-      this.set(this.saved);
-    },
-    hasChanged: function() {
-      return !_.isEqual(this.saved, this.attributes);
+      BaseModel.prototype.initialize.apply(this);
     }
   });
 });

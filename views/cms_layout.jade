@@ -22,8 +22,6 @@ html
               a(href="#") Publish
             li.revert
               a(href="#") Revert to Saved
-            li.revert_to_draft
-              a(href="#") Revert to Draft
           else
             li.login
               a(href="/login") Login
@@ -32,6 +30,7 @@ html
       block content
 
     footer
+      block footer
     
     //- Data for front end
     script(type="text/javascript").

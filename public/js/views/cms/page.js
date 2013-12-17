@@ -29,14 +29,13 @@ define([
         collection: model.content_blocks
       });
       this.options_view = new OptionsView({ model: this.model });
-      this.listenTo(this.model, 'change', this.saveLocal);
     },
     toggleSave: function() {
-      var els = this.$el.find('nav .save, nav .revert');
+      var el = this.$el.find('nav .save, nav .revert');
       if (this.model.hasChanged()) {
-        els.show();
+        el.show();
       } else {
-        els.hide();
+        el.hide();
       }
     },
     save: function(ev) {
@@ -46,16 +45,6 @@ define([
     // Revert to last fetched version
     revert: function() {
       this.model.revert();
-      return false;
-    },
-    // Saves to localStorage, for drafts, versioning...
-    saveLocal: function(ev) {
-      this.model.saveLocal();
-      return false;
-    },
-    // Revert to a draft
-    revertToDraft: function(ev) {
-      this.model.set(this.model.fetchLocal());
       return false;
     },
     editOptions: function(ev) {
@@ -76,7 +65,7 @@ define([
       }
       if (xhr.status === 403) {
         alert('You must be logged in to do that...');
-        //window.location.href = '/login';
+        window.location.href = '/login';
       } else {
         alert('An error has occurred');
       }
